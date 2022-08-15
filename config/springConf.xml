@@ -1,0 +1,378 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"  
+ 	xmlns:util="http://www.springframework.org/schema/util"
+      
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+	default-lazy-init="true" >
+	<!-- This comes from some jar to load the jdbc properties leave it here  -->
+	
+	
+	<context:annotation-config />
+ 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+  		<property name="locations">  
+    		<list>  
+      			<value>classpath*:caerusone.properties</value>
+      			<value>classpath*:/jdbc.properties</value>  
+    		</list>  
+  		</property>  
+	</bean>  
+ 
+ 	<tx:annotation-driven />
+<!-- JMX Configuration how to start:
+Taken from: 
+ http://forum.springsource.org/showthread.php?17620-Full-example-of-JMX-in-spring
+How to Start:
+ -Dspring.file=springConf.xml -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
+ -->
+<!-- jmx connection configuration: Please uncomment this code to start
+jmx .
+
+     <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+          <property name="port" value="1099"/>
+        </bean>
+         <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean"/>
+         <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
+                <property name="beans">
+                        <map>
+                                <entry key="bean:name=groupHelper"  value-ref="groupHelper"/> 
+                        </map>
+                </property>
+        </bean>
+         
+         <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean">
+                <property name="objectName" value="connector:name=rmi"/>
+                <property name="serviceUrl" value="service:jmx:rmi://192.168.2.6/jndi/rmi://192.168.2.6:1099/jmxrmi"/>
+        </bean> 
+        
+        
+        end of jmx connection configuration.-->
+ 	
+
+
+ 	
+ 	<!-- System logger bean which should be used for the system wide logging. -->
+	<bean id="systemLogger" class="org.ptg.util.SystemLogger" ></bean>
+	<!--  DAta source bean definition. This datasource is used by the system some of the processors
+	assume this datasource to be used. You can define more and change here.
+	Defualt dbhelper uses this datasource.
+	-->
+<!--     <bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+ 		<property name="url" value="jdbc:mysql:mxj://localhost:3336/caerusone?server.basedir=#{ systemProperties['installDir'] }/datadir&amp;createDatabaseIfNotExist=false&amp;server.initialize-user=false" />  
+		<property name="username" value="${caerusone.dbuser}" />
+		<property name="password" value="${caerusone.dbpassword}" />
+		<property name="maxActive">
+			<value>10</value>
+		</property>
+		<property name="maxIdle">
+			<value>10</value>
+		</property>
+	</bean>-->
+	<bean id="dataSource" destroy-method="close"
+        class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:c:/projects/Caerusone/test" />  
+        <property name="username" value="sa" />
+        <!-- <property name="password" value="${caerusone.dbpassword}" /> -->
+        <property name="maxActive">
+            <value>10</value>
+        </property>
+        <property name="maxIdle">
+            <value>10</value>
+        </property>
+    </bean>
+	<!-- 
+	App context bean is used to configure system. such as which features
+	to turn on and etc. System features that are configurable are done via app context and 
+	not a properties file to make sure they are tracked for changes,additions and there are no 
+	surprises.
+	 -->
+	<bean id="appContext" class="org.ptg.cluster.AppContext" init-method="init">
+		<!-- Id of this system. Could be anything unique. -->
+		<property name="systemId" value="${caerusone.ssid}"></property>
+		<!-- Group id of this instance , every instance is in some group if it is a new group
+		it will be started. IT is used by spread. -->
+		<property name="groupId" value="${caerusone.ssid}"></property> 
+		<!--  read groups to which internal jmemcache instance reads from. IF a message is sent to 
+		this group this instance of jmemcache will get the message from it and store in memory.  -->
+		<property name="readGroups" value="${caerusone.grpid}" />
+		<!-- Write groups to which this instance of jmemecache will write to . Read and write groups
+		are kept separate configuration items to allow more flexiblity.  -->
+		<property name="writeGroups" value="${caerusone.grpid}" />
+		<!--  where the spread server is running. A local instance be run. -->
+		<property name="brokerHost" value="${caerusone.spreadBrokerHost}"></property>
+		<!-- port at which spread is running. -->
+		<property name="brokerPort" ><value>${caerusone.spreadBrokerPort}</value></property>
+		<!--  memcache port and ip . USed to configure internal jmemcache server instance.
+		Use the memcacheIP to configure which ip to listen. -->
+		<property name="memcacheIP" value="${caerusone.myMemcacheIp}"></property>
+		<!--  memcache port and ip . USed to configure internal jmemcache server instance.
+		Use the memcacheport to configure which port to listen. -->
+		<property name="memcachePort" value="${caerusone.myMemcachePort}"></property>
+		<!-- Jmemcache instance uses a sqllite database to persist,
+		in memory entries. dbfile property tells which DB file to use for writing the memcache items -->
+		<property name="dbfile" value="${caerusone.sqlliteDB}"></property>
+		<!-- Jmemcache instance uses a sqllite database to persist,
+		in memory entries. itemTable property tells which table to use for writing the memcache items -->
+		<property name="itemTable" value="${caerusone.persistUtil.itemTable}"></property>
+		<!--  memory mapped file name and path to use for the internal jmemcache server -->
+		<property name="cacheFile" value="${caerusone.memcache.LocalPersistStore}"></property>
+		<!--  maxSize of file to  -->
+		<property name="maxSize" value="${caerusone.memcache.maxSize}"></property>
+		<!--  blockSize used by jmemcache for individual block allocation to store item-->
+		<property name="blockSize" value="${caerusone.memcache.blockSize}"></property>
+		<!--  ceilingLimit memory to use by jmemcached server -->
+		<property name="ceilingLimit" value="${caerusone.memcache.CeilingLimit}"></property>
+		<!--  max items to keep in memory, Remember since the internal instance of jmemcache server uses persist
+		store items are flushed out to persist store and in case a item i read and cannot find in main memory
+		it is loaded from persisted memory.-->
+		<property name="maxItems" value="${caerusone.memcache.maxItemsInMemory}"></property>
+		<!--  IF it is set to false the local store is  truncated otherwise items are loaded 
+		from the persisted store into memory if property preload is set to true.-->
+		<property name="startEmpty" value="true"></property>
+		<!-- internal jmemcache store can be queried. Clients can query the store using a sql like syntax.
+		If this property is set to false the query is not forwarded to the members in write group.  -->
+		<property name="propogateQuery" value="false"></property>
+		<!-- if replicated is set to true all the items that are written to this jmemcache instance are
+		forwared to the replicated servers configured in the jmemcache server using groupHelper bean below in
+		the configuraiton. -->
+		<property name="replicated" value="false"></property>
+		<!-- this property tells jmemecache server instance to load the items already persisted
+		in the store.  -->
+		<property name="preload" value="false"></property>
+		<!--  if internal jmemcache server is flushed to clear the memory, the persist store
+		can be configured via this property to be clean as well. If this property is true every time the 
+		cache is flushed the local persist store is cleared as well.
+		 -->
+		<property name="clearDBOnFlush" value="false"></property>
+		<!--  if fedarated is true then all the other servers in the fedarated list are also queried for a 
+		missing item. -->
+		<property name="fedarated" value="false"></property>
+		<!--  buildDir  is the directory used by server internally to keep compile code.
+		If this directory is not set then the compiled code is kept in memory. In developement
+		it is not a bad idea to not set it but in production always set it for better performance.This directory
+		is included in class path.-->
+		<property name="buildDir" value="${caerusone.build.outputDir}"></property> 
+		<!-- if the objects being set in memory are event objects. Via event definition a index is maintaned for them
+		in the table specified by the event definition object. IF this property is true every time the event is written
+		and there is an event definition available for that event then the index is updated. Index is nothing but a table
+		but helps in much faster query then deserialzing and parsing objects every time. -->
+		<property name="createIndexForClustered" value="false"></property>
+		<!-- For the events everytime a event is written its json formatted object can also be written.
+		this property governs that.So if this property is true and an event is written in the cache
+		its json representation is also stored simultaneously. -->
+		<property name="addJsonEventForEvent" value="false"></property>
+		<!-- This peroprty is used to overwrite the event stores configured in event definition.
+		So if an event definition has a mapping here then this mapping takes priority over the table
+		specified in the event definition.Do not use it since developement plan is to do it differently. -->
+		<property name="eventStores">
+			<map>
+			</map>
+		</property>
+		<!-- caerusone has capablity to work with amqp messaging systems. createRabbitQueues  tell the system
+		to create some of the default queues the system needs. This is only active if startRabitClient property is true.-->
+		<property name="createRabbitQueues" value="false"></property>
+		<!--  google account to use by some of the processors that interact with the google services. -->
+		<property name="gmailAccount" value=""></property>
+		<!--  google account password to use by some of the processors that interact with the google services. -->
+		<property name="gmailPassword" value=""></property>
+		<!-- file system base directy where the caersusone is installed. This is used for multiple 
+		purposes.-->
+		<property name="fsBaseDir" value="#{ systemProperties['installDir'] }/"></property>
+		<!-- file system directy where to keep the generated images . There are functions in 
+		common util to help generate images using r and otherwise this is the directory where those
+		generated images are kept.-->
+		<property name="imageOutDir" value="#{ systemProperties['installDir'] }/site/imageout"></property>
+		<!--  this property tell whether to start the rabbit client.Caerusone has internal functionality
+		to connect to rabbit client and be able to read data and write data to it.-->
+		<property name="startRabitClient" value="false"></property>
+		<!-- this propterty file is loaded by the system for various properties. This is here
+		for legacy reason will be removed by a better functionality in future. -->
+		<property name="propFile" value="${caerusone.propertyFile}" />
+		<!-- This peropterty tells whether to load the dynamically loaded components at the start up. spme of the 
+		components can be loaded during startp up if they have been loaded dynamically  at the run time. -->
+		<property name="dynaDeploy" value="false" />
+		<!--  this property tells the caerusone to star the internal ftp server. 
+		The internal ftp service is used to provide ftp functionality it is currently under developement
+		so not ment for production use. -->
+		<property name="startFTPServer" value="false"/>
+		<!--  this property tells the caerusone to star the internal sshd server. 
+		The internal sshd service is used to provide sshd functionality it is currently under developement
+		so not ment for production use. -->
+		<property name="startSSHD" value="false"/>
+		<!-- this property is used to tell caerusone whether to start embeded spread server.
+		Mainly ment for windows machines  for unixes the spread daemon is more precisly controlled.-->
+		<property name="startSpreadDaemon" value="false"/>
+		<!-- where to connect to spread. Some of the sytem functionalty connects to spread to sync 
+		events and data. 	-->
+		<property name="connToSpread" value="false"/>
+		<!--  this propter tells the internal web server built on jetty which port to listen to. 
+		This port is used in wide, bam and other services. Change only if needed-->
+		<property name="serverHttpPort" value="${caerusone.httpPort}"/>
+		<property name="httpServerIp" value="${caerusone.HostIp}"/>
+		
+		<!--  this proptert is used to start apche axis web service component. Apache axis
+		has to be separately installed and is not bundeled due to large space requrirement of apache axis libraries
+		If it is turned on web services interface is avaliable both via processos ,dynaload and static loaded 
+		services
+		-->
+		<property name="startAxis" value="false"/>
+		<property name="startActiviti" value="false"/>
+		
+		<!--  what is the dialect of sql server mysql or sqllite. Currently we support only to sql servers
+		in future we intend to have compatablity with many more. -->
+		<property name="sqlServer" value="${caerusone.sqlserverType}" />
+		<property name="startUIHooks" value="false"></property>
+		<property name="startShortCut" value="false"></property>
+		<property name="sendShortCutEvents" value="false" />
+		<property name="webappdir" value="#{ systemProperties['installDir'] }/site"></property>
+		<property name="webapptempdir" value="#{ systemProperties['installDir'] }/tmp"></property>
+		<property name="axistempdir" value="#{ systemProperties['installDir'] }/tmp/axis2/"></property>
+		<property name="axiswar" value="#{ systemProperties['installDir'] }/extra/wars/axis2.war"></property>
+		<property name="activitiwar" value="#{ systemProperties['installDir'] }/caerusBPM/war/activiti-explorer.war"></property>
+		<property name="activitiwartemp" value="#{ systemProperties['installDir'] }/caerusBPM/tmp"></property>
+		<property name="startPlugins" value="true"></property>
+		<property name="sendDeployEvent" value="true" ></property>
+		
+		
+	</bean>
+		<!--  java rule manager to use to work with drools . -->
+	    <bean id="javaRuleManager" class="org.ptg.util.JavaRuleManager" />
+ 	    <!-- Which persist util to use to persist memory items to disk. There is one dummy implmentation
+ 	    as well available if ti is not set hmemcache items are not persisted to the disk. -->
+	<!-- Which spreadutil to use to work with spread. There is one working implementation and one dummy implementation.
+	 -->
+	<bean id="spreadUtil" class="org.ptg.cluster.DummySpreadUtil" init-method="init">
+		<!-- which context to use for this spread util -->
+		<property name="context" ref="appContext">
+		</property>
+	</bean>
+	
+<!--  group helper class to help working with working with jmemcache groups there are three groups used
+by the grouphelper. One is execution group used by cluster execution service to execute a method in a cluster of instance.
+Second one is normal group used by query engine to query in a cluster. Third is fedarated to fedarate request to. -->
+	<bean id="groupHelper" class="org.ptg.cluster.group.GroupHelper">
+		<property name="groups">
+			<map>
+			</map>
+		</property>
+		<property name="fedaratedGroups">
+			<map>
+			</map>
+		</property>
+	</bean>
+	<!--  queryEngine bean controls which query engine to use. -->
+	<bean id="queryEngine" class="org.ptg.cluster.query.QueryEngine"	init-method="init" />
+	<!--  scriptEngine bean controls which script engine to use. -->
+	<bean id="scriptEngine" class="org.ptg.script.ScriptEngine"		init-method="init" />
+	<!--  threadManager is global thread manager. It provides facade to thread pool and other thread
+	releated services. -->
+	<bean id="threadManager" class="org.ptg.util.thread.ThreadManager" />
+	<!--  queryGen controls which query object gnerattor to use. Query object gnerator is used
+	to generate query objects from the queries.-->
+	<bean id="queryGen" class="org.ptg.cep.QueryObjectGenerator" />
+	<!-- SQl query parser to use for parsing cep queries  -->
+	<bean id="sqlAnalyser" class="org.ptg.cep.SQLParserGenerator" />
+	<!--  cepkernel is internal cep engine kernel used for faster cep processing. There are 
+	two cep engines one is cepKErnel based cepQueryEngine which is good for stream processing.
+	And second one based on esper for better temporal and wider complex event processing. -->
+	<bean id="cepKernel" class="org.ptg.cep.SimpleKernel" />
+	<!--  internal cep engine. Thsi is exposed interface nad engine to work with internal
+	very fast stream processing engine.-->
+	<bean id="cepQueryEngine" class="org.ptg.cep.QueryEngine" >
+	<property name="classBaseQualifier" value="${caerusone.compiledQueryPkg}"></property>
+	<property name="kernel" ref="cepKernel"></property>
+	<property name="classMappings" >
+	<map>
+	</map>
+	</property> 
+	</bean>
+	<!--  methodLocatorHelper bean is sued by the wrapper events and other beans to find the best
+	possible getter/setter for a given property.-->
+<bean id="methodLocatorHelper" class="org.ptg.util.BruteForceMethodLocatorStrategy"></bean>	
+<!-- This is the lisnter set in the jmemcached there is only one direct update process that listenes
+to events . You can write your own implementaion taking this as reference and set here. -->
+<bean id="directCacheEventListener" class="org.ptg.processors.nopipe.DirectCacheUpdateProcess" />
+<!-- temp directory used by various comppnents such as web server, jsp compiler etc. -->
+<bean id="tempdir" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="#{ systemProperties['installDir'] }/tmp/"></constructor-arg>
+</bean>
+<!-- Base directory property same as fsBaseDir propert of app context.
+In later releases it will be remove and only appcontext one will be used. -->
+<bean id="basedir" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="#{ systemProperties['installDir'] }/"></constructor-arg>
+</bean>
+<!--  Which template to use to generate tables for event stores -->
+<bean id="eventtableTemplate" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="${caerusone.eventTableTemplate}"></constructor-arg>
+</bean>
+<!--  sourceMap this is used by a plugin to source events and cross process joins over events. -->
+<bean id="sourceMap" class="org.ptg.events.SourceMap" >
+<property name="sources">
+			<map>
+				
+			</map>
+		</property>
+</bean>
+<!--  this map contains sql statements to get the id of last insterted row. -->
+<util:map id="sqlServerLastIdMap">
+ <entry key="mysql" value="select LAST_INSERT_ID()"/> 
+ <entry key="sqllite" value="select last_insert_rowid()"/>
+ <entry key="h2" value="select LAST_INSERT_ID()"/>
+</util:map>
+<bean id="fastCamelVisitor" init-method="init"  class="org.ptg.util.FastCamelVisitor">
+<property name="serverMap">
+<map>
+<entry key="server1" value="${caerusone.memcacheExecutiveUrl}"></entry>
+</map>
+</property>
+</bean>
+<bean id="localCamelVisitor" init-method="init" class="org.ptg.util.LocalCamelVisitor">
+</bean>
+<bean id="clipBoardUtil" class="org.ptg.clipboard.ClipboardUtils">
+</bean>
+<bean id="luceneEventIndex" class="org.ptg.util.index.LuceneEventIndex" init-method="init">
+<property name="dirName" value="#{ systemProperties['installDir'] }/luceneidx/"></property>
+</bean>
+ <bean id="theTracingAroundAdvice" class="org.ptg.util.aspect.AroundAspectAdvice" />
+ <bean id="pluginsDir" class="java.lang.String">
+     <constructor-arg type="java.lang.String" value="plugins/"></constructor-arg>
+ </bean>
+ <bean id="pluginsManager" class="org.ptg.plugins.DefaultPluginManager" />
+ <bean id="phantomjswdir" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="${phantomjswdir}"></constructor-arg>
+</bean>
+ <bean id="phantomjsbin" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="${phantomjsbin}"></constructor-arg>
+</bean>
+ <bean id="rasterjs" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="${rasterjs}"></constructor-arg>
+</bean>
+<bean id="visjsp" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="${visjsp}"></constructor-arg>
+</bean>
+<bean id="systemtempdir" class="java.lang.String">
+<constructor-arg type="java.lang.String" value="${systemtempdir}"></constructor-arg>
+</bean>
+<bean id="srApiHosts" class="java.lang.String">
+    <constructor-arg type="java.lang.String" value="${srApiHostsList}"></constructor-arg>
+</bean>
+<!-- <bean id="noteFileHandler" class="org.ptg.file.NoteHandler">
+    <constructor-arg type="java.lang.String" value="${srApiHostsList}"></constructor-arg>
+</bean>
+<bean id="noteDirWatcher" class="org.ptg.file.DirectoryWatcher">
+    <constructor-arg type="org.ptg.file.NoteHandler" value-ref="noteFileHandler"></constructor-arg>
+    <constructor-arg type="java.lang.String" value-ref="c:\\temp\\demo"></constructor-arg>
+</bean>
+ -->
+<bean id="vfdDest" class="java.lang.String">
+	<constructor-arg type="java.lang.String" value="${vfdDest}"></constructor-arg>
+</bean>
+ </beans>
+ 

@@ -1,0 +1,83 @@
+import java.util.*;
+import org.apache.camel.*;
+import org.ptg.events.*;
+import org.ptg.util.events.*;
+import org.ptg.stream.*;
+import org.ptg.util.*;
+import java.io.*;
+import java.lang.reflect.*;
+import java.sql.*;
+import java.text.*;
+import java.util.regex.*;
+import javassist.*;
+import javassist.bytecode.annotation.*;
+import javax.xml.bind.*;
+import javax.xml.parsers.*;
+import javax.xml.xpath.*;
+import net.htmlparser.jericho.*;
+import net.sf.ezmorph.*;
+import net.sf.ezmorph.bean.*;
+import net.sf.json.*;
+import net.sf.json.util.*;
+import org.apache.camel.builder.*;
+import org.apache.camel.impl.*;
+import org.apache.commons.collections.*;
+import org.apache.commons.fileupload.*;
+import org.apache.commons.jexl2.*;
+import org.apache.commons.jxpath.*;
+import org.apache.commons.lang.*;
+import org.apache.commons.lang.exception.*;
+import org.apache.commons.lang.math.*;
+import org.apache.commons.vfs.*;
+import org.ptg.admin.*;
+import org.ptg.cep.*;
+import org.ptg.processors.*;
+import org.ptg.script.ScriptEngine;
+import org.ptg.stream.Stream;
+import org.ptg.stream.StreamDefinition;
+import org.ptg.stream.StreamManager;
+import org.ptg.timer.QuartzEvent;
+import org.ptg.timer.QuartzImmidiateEvent;
+import org.ptg.util.db.DBHelper;
+import org.ptg.util.thread.ThreadManager;
+import org.ptg.util.titan.ITitanClass;
+import org.ptg.util.titan.TitanCompiler;
+import org.ptg.velocity.VelocityHelper;
+import org.rosuda.REngine.Rserve.RserveException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.yaml.snakeyaml.Yaml;
+import com.google.protobuf.*;
+import com.sun.tools.xjc.XJC2Task;
+import org.quartz.Job;
+import org.quartz.*;
+import org.ptg.util.IRunnable;
+import ch.ethz.ssh2.*;
+import org.apache.tools.ant.taskdefs.optional.ssh.Scp;
+public class ${name} implements IRunnable{
+public void run(){
+System.out.println("Going to execute \"run\" method in ${name} now");
+${code}
+}
+
+public static void main(String[] args){
+${name} testVar = new ${name}();
+
+testVar.run();
+}
+    public boolean runScript(String server, String code) {
+            return runScript(server, code) ;
+    }
+
+    public boolean echo(String txt) {
+        System.out.println("echo: " + txt);
+        return false;
+    }
+        public boolean antScpTo(String file, String toDir, String context) {
+       return AutomateUtils.antScpTo(file, toDir, context); 
+    }
+    public boolean sendToUi(String s) {
+               return AutomateUtils.sendToUi(s);
+    }
+    
+}

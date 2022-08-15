@@ -1,0 +1,5 @@
+dojo.provide("comps.topstocks"); 
+comps.graph.init = function(){
+    alert("Getting top 25 stocks");
+
+}

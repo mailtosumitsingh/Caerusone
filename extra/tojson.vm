@@ -1,0 +1,4 @@
+{
+	net.sf.json.JSONObject o = net.sf.json.JSONObject.fromObject($0);
+	return o.toString();
+}

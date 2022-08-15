@@ -1,0 +1,78 @@
+
+import java.util.*;
+import org.apache.camel.*;
+import org.ptg.events.*;
+import org.ptg.stream.*;
+import org.ptg.util.*;
+import java.io.*;
+import java.lang.reflect.*;
+import java.sql.*;
+import java.text.*;
+import java.util.regex.*;
+import javassist.*;
+import javassist.bytecode.annotation.*;
+
+import javax.xml.bind.*;
+import javax.xml.parsers.*;
+import javax.xml.xpath.*;
+
+import net.htmlparser.jericho.*;
+import net.sf.ezmorph.*;
+import net.sf.ezmorph.bean.*;
+import net.sf.json.*;
+import net.sf.json.util.*;
+
+import org.apache.camel.builder.*;
+import org.apache.camel.impl.*;
+import org.apache.commons.collections.*;
+import org.apache.commons.fileupload.*;
+import org.apache.commons.jexl2.*;
+import org.apache.commons.jxpath.*;
+import org.apache.commons.lang.*;
+import org.apache.commons.lang.exception.*;
+import org.apache.commons.lang.math.*;
+import org.apache.commons.vfs.*;
+import org.ptg.admin.*;
+import org.ptg.cep.*;
+import org.ptg.processors.*;
+import org.ptg.script.ScriptEngine;
+import org.ptg.stream.Stream;
+import org.ptg.stream.StreamDefinition;
+import org.ptg.stream.StreamManager;
+import org.ptg.timer.QuartzEvent;
+import org.ptg.timer.QuartzImmidiateEvent;
+import org.ptg.util.db.DBHelper;
+import org.ptg.util.thread.ThreadManager;
+import org.ptg.util.titan.ITitanClass;
+import org.ptg.util.titan.TitanCompiler;
+import org.ptg.velocity.VelocityHelper;
+import org.rosuda.REngine.Rserve.RserveException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.yaml.snakeyaml.Yaml;
+
+import com.google.protobuf.*;
+import com.sun.tools.xjc.XJC2Task;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
+
+
+
+public class ${name} implements org.apache.commons.collections.Closure{
+public void 	execute(java.lang.Object in) {
+org.ptg.util.db.DBHelper inst = org.ptg.util.db.DBHelper.getInstance();
+java.sql.Connection conn =null;
+int tempvar =0;
+		try {
+		conn =  inst.createConnection();
+		${code}
+		System.out.println("Executed Successfully");
+		} catch (Exception e) {
+     		e.printStackTrace();
+		} finally{
+        		inst.closeConnection(conn);
+		}
+	}
+}

@@ -1,0 +1,23 @@
+{
+int lastid = -1;
+$objtype obj = ($objtype) $1;
+String sql = "insert into "+Table+" ($dynaprop) values ( $dynaques)";
+org.ptg.util.db.DBHelper inst = org.ptg.util.db.DBHelper.getInstance();
+java.sql.Connection conn = inst.createConnection();
+java.sql.PreparedStatement stmt =null;
+int tempvar =0;
+		try {
+		stmt = conn.prepareStatement(sql);
+$codestr
+			stmt.executeUpdate();		
+			lastid = (inst.getLastId(conn));
+			System.out.println("Executed Successfully");
+		} catch (Exception e) {
+     		e.printStackTrace();
+		} finally{
+        		inst.closeStmt(stmt);
+        		inst.closeConnection(conn);
+		}
+		System.out.println("Sql:" +sql);
+		return lastid;
+	}

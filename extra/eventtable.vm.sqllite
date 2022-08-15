@@ -1,0 +1,12 @@
+CREATE TABLE  `$store` (
+  `id` INTEGER  PRIMARY KEY AUTOINCREMENT,
+  `created_time` INTEGER  NOT NULL,
+  `eventtype` varchar(256) NOT NULL,
+  `system` varchar(256) default 'CEP',
+  `xref` varchar(256) default NULL,
+  `status` varchar(64) default 'NEW',
+   `currstream` varchar(64) default 'START',
+   $coldata
+  `eventgroup` varchar(128) default NULL,
+  `path` TEXT default NULL
+) 

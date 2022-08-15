@@ -1,0 +1,27 @@
+﻿<!DOCTYPE HTML>
+     
+<META charset="utf-8">     
+<META http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">     
+<TITLE>Search</TITLE>     
+<META name="viewport" content="width=device-width, initial-scale=1">      
+ <LINK href="/site/typeahead/typeahead.css" rel="stylesheet">
+ <SCRIPT src="/site/typeahead/hogan-2.0.0.js"></SCRIPT>
+ <SCRIPT src="/site/typeahead/jquery-1.10.2.js"></SCRIPT>
+ <SCRIPT src="/site/typeahead/typeahead.js"></SCRIPT>
+ <SCRIPT src="/site/typeahead/init.js"></SCRIPT>   
+<BODY>
+<DIV class="container">
+<H1 class="title">Search</H1>
+<DIV class="example example-countries">
+<H2 class="example-name">Search</H2>
+<DIV class="demo"><INPUT class="typeahead" type="text" placeholder="countries" value="">        </DIV>
+<DIV class="gist">
+         </DIV></DIV>
+         <script type="text/javascript" >
+         $.get( "/site/AutoCompleteHelper?sq=testload", function( data ) {
+        	  console.log(data)
+        	  alert( "Load was performed." );
+        	});
+         </script>
+   </BODY>
+   </HTML>

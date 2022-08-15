@@ -1,0 +1,6 @@
+var mx = mouseX, my = mouseY;
+var name = prompt("Please Enter name: ");
+var a = createAnonDefObj(mx,my,100,60,name,[${in}],["${out}"],[${aux}],"${typeof}");
+pData.data.push(a);
+console.log(a);
+drawAnonDef(mx,my,100,60, "orange","orange",a,null);

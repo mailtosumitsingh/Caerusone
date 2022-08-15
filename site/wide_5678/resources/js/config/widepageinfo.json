@@ -1,0 +1,103 @@
+   [
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "Custom Modules",
+        "modulepath" : "/site/wide_5678/resources/html/menu.html",
+        "modulename" : "comps_graph",
+        "moduleparams" :"left: 1410px;top: 360px;height:300px;overflow:auto",
+        "jscomp":"extraCustomModules.js",
+        "disp":false
+       },
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "Droppables",
+        "modulepath" : "/site/wide_5678/resources/html/droppableslib.html",
+        "modulename" : "droppableslibs",
+        "moduleparams" :"left: 1000px;top: 90px;height:300px;overflow:auto",
+        "jscomp":"droppableslib.js",
+        "disp":false
+       }
+       ,
+   /*    {
+        "contid" : "pagemodules",
+        "instanceid" : "Mapper Library",
+        "modulepath" : "/site/wide_5678/resources/html/mapperlib.html",
+        "modulename" : "mapperlib",
+        "moduleparams" :"left: 1200px;top: 50px;height:300px;overflow:auto",
+        "jscomp":"mapperlib.js",
+        "disp":false
+       },
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "Function Mapper Library",
+        "modulepath" : "/site/wide_5678/resources/html/mapperfunlib.html",
+        "modulename" : "mapperfunlib",
+        "moduleparams" :"left: 1000px;top: 50px;height:300px;overflow:auto",
+        "jscomp":"mapperfunlib.js",
+        "disp":false
+       },
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "New Variable Library",
+        "modulepath" : "/site/wide_5678/resources/html/mappervarlib.html",
+        "modulename" : "mappervarlib",
+        "moduleparams" :"left: 1100px;top: 70px;height:300px;overflow:auto",
+        "jscomp":"mappervarlib.js",
+        "disp":false
+       },
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "New Inst Library",
+        "modulepath" : "/site/wide_5678/resources/html/mapperinstlib.html",
+        "modulename" : "mapperinstlib",
+        "moduleparams" :"left: 1200px;top: 90px;height:300px;overflow:auto",
+        "jscomp":"mapperinstlib.js",
+        "disp":false
+       },
+       */
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "Processors Library",
+        "modulepath" : "/site/wide_5678/resources/html/processorslib.html",
+        "modulename" : "processorslib",
+        "moduleparams" :"left: 1200px;top: 90px;height:300px;overflow:auto",
+        "jscomp":"processorslib.js",
+        "disp":false
+       },
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "Library",
+        "modulepath" : "/site/wide_5678/resources/html/repo.html",
+        "modulename" : "repo_blocks",
+		"moduleparams" :"left: 1200px;top: 28px;height:670px;width:300px;overflow:auto",
+        "jscomp":"repoblocks.js",
+        "disp":true
+       },
+       {
+        "contid" : "pagemodules",
+        "instanceid" : "CompConfig",
+        "modulepath" : "/site/wide_5678/resources/html/compconfig.html",
+        "modulename" : "compconfig",
+        "moduleparams" :"left: 1200px;top: 300px;height:200px;width:300px;overflow:auto",
+        "jscomp":"compconfig.js",
+        "disp":false
+        
+       },{
+        "contid" : "pagemodules",
+        "instanceid" : "Components",
+        "modulepath" : "/site/wide_5678/resources/extra/proccomp/processcomponents.html",
+        "modulename" : "proccomps",
+		"moduleparams" :"left: 0px;top: 28px;height:670px;width:300px;overflow:auto",
+        "jscomp":"processcomponents.js",
+        "disp":true
+       },{
+        "contid" : "pagemodules",
+        "instanceid" : "FileDropBox",
+        "modulepath" : "/site/wide_5678/resources/extra/dropBox/dropBox.html",
+        "modulename" : "dropBox",
+		"moduleparams" :"left: 0px;top: 28px;height:220px;width:410px;overflow:hide",
+        "jscomp":"dropBox.js",
+        "disp":false
+        
+       }
+   ]

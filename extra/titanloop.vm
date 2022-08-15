@@ -1,0 +1,3 @@
+for ( int $loopvar = $start ; $loopvar < $end ; $loopvar = $loopvar ${counter} ){
+$code
+}

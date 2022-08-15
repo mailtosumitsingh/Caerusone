@@ -1,0 +1,29 @@
+{
+$objtype obj = ($objtype) $1;
+String sql = "update "+Table+" set xref=?,system=?,eventtype=?,created_time=?,eventgroup=?,status=?,currstream=?,path=?  $dynaprop where id="+obj.getId();
+org.ptg.util.db.DBHelper inst = org.ptg.util.db.DBHelper.getInstance();
+java.sql.Connection conn = inst.createConnection();
+java.sql.PreparedStatement stmt =null;
+int tempvar =0;
+		try {
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(++tempvar,obj.getXref());
+		stmt.setString(++tempvar,obj.getSystem());
+		stmt.setString(++tempvar,obj.getEventType());
+		stmt.setLong(++tempvar,obj.getCreatedTime());
+		stmt.setString(++tempvar,obj.getEventGroup());
+		stmt.setString(++tempvar,obj.getStatus());
+		stmt.setString(++tempvar,obj.getWhere());
+		stmt.setString(++tempvar,obj.getStk());
+$codestr
+			stmt.executeUpdate();		
+			obj.setId(inst.getLastId(conn));
+			System.out.println("Executed Successfully");
+		} catch (Exception e) {
+     		e.printStackTrace();
+		} finally{
+        		inst.closeStmt(stmt);
+        		inst.closeConnection(conn);
+		}
+		System.out.println("Sql:" +sql);
+	}

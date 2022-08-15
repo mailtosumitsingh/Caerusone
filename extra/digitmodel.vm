@@ -1,0 +1,8 @@
+#foreach( $digit in $digits)
+SimpleDigit digit${digit.label} = new SimpleDigit($digit.x,$digit.y,$digit.w,$digit.h,$digit.label);
+#foreach( $seg in $digit.segments)
+SimpleSegment sm${digit.label}${seg.label} = new SimpleSegment($seg.x,$seg.y,$seg.w,$seg.h,$seg.label);
+digit${digit.label}.getSegments().set(${seg.label},sm${digit.label}${seg.label} );
+#end
+model.getDigits().add(digit${digit.label});
+#end

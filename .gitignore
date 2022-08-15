@@ -1,0 +1,15 @@
+/bin/
+/log/
+/luceneidx/
+/*.log.1
+/persiststore.db
+/velocity.log
+
+/t.jpg
+/t2.jpg
+/olddatadir/
+/pluginlibs/
+/deletedplugins/
+/plugins/
+/luceneCommentIndex/
+*.out

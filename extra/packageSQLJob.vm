@@ -1,0 +1,88 @@
+
+package org.ptg.tests;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.collections.Closure;
+import org.ptg.util.CommonUtil;
+import org.ptg.util.db.DBHelper;
+import org.ptg.util.db.SQLObj;
+import org.ptg.util.mapper.v2.FPGraph2;
+import java.util.*;
+import org.apache.commons.collections.*;
+import java.io.*;
+
+public class ${classname} {
+	boolean multiDB = false;
+	Closure c;
+	public static void main(String []args)throws Exception {
+		${classname} obj = new ${classname}();
+		obj.init();
+		obj.doWork(null);
+	}
+	public void init() throws Exception {
+		try {
+			Map<String, String> params = new HashMap<String, String>();
+	    	String graphjson= null;//DBHelper.getInstance().getString("select graph from graphs  where name=\'"+"${name}"+"\'");
+	    	graphjson = org.apache.commons.io.FileUtils.readFileToString(new File("c:/projects/caerusone/tests/org/ptg/tests/${classname}"+".process"));
+		
+	    	Map<String, Object> l = CommonUtil.getGraphObjectsFromJson("${name}",graphjson);
+			FPGraph2 g = new FPGraph2();
+			g.setName("${name}");
+			g.fromObjectMap(l,null);
+	    	int sqlcount=0;
+			String sql = "";
+			String sqlin = "";
+			String sqlout = "";
+			String sqlType = "";
+			for(Object o:l.values()){
+				if(o instanceof SQLObj){
+					SQLObj so = (SQLObj)o;
+					sqlType = so.getSqlType();
+					if(sqlType.equals("query")){
+		            	sqlin = so.getSql();
+		            	sql =so.getSql();
+		            }
+		            if(sqlType.equals("update")||sqlType.equals("insert")){
+		            	sqlout = so.getSql();
+		            	sql =so.getSql();
+		            }
+					sqlcount++;
+				}
+			}
+			if(sqlcount> 1 ){
+				if(multiDB)
+					sqlType = "DBMap";
+				else
+					sqlType = "tablemap";
+			}
+			String ineventtype = "${eventtype}";
+			String mappingtype = "SQLMapper1";
+			mappingtype = "SQLMapper_"+sqlType;
+
+			params.put("eventtype", ineventtype);
+			params.put("sql","\""+sql+"\"");
+			params.put("sql","\""+sqlin+"\"");
+			params.put("sqlin","\""+sqlin+"\"");
+			params.put("sqlout","\""+sqlout+"\"");
+			params.put("eventtype", "${eventtype}");
+
+			Object  o =  CommonUtil.instantiateSQLMappingGraph(g, mappingtype, params);
+			if (o != null) {
+				if (o instanceof Closure) {
+					c = (Closure) o;
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		}
+
+	public void doWork(Object msg) throws Exception {
+		if(c!=null){
+			c.execute(msg);
+		}
+	}
+
+}

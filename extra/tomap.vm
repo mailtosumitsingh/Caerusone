@@ -1,0 +1,13 @@
+{
+java.util.Map b = new java.util.HashMap();
+b.put("id",getEventProperty("id"));
+b.put("xref",getEventProperty("xref"));
+b.put("system",getEventProperty("system"));
+b.put("createdTime",getEventProperty("createdTime"));
+b.put("pidStr",getEventProperty("pidStr"));
+b.put("corrId",getEventProperty("corrId"));
+#foreach( $pro in $properties )
+b.put("$pro.getKey()",getEventProperty("$pro.getKey()"));
+#end
+return b;
+}

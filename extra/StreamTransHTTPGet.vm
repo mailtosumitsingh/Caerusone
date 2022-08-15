@@ -1,0 +1,6 @@
+{
+$objtype e = new $objtype();
+java.util.Map b = $1.getParameterMap();
+$codestr
+return e;
+}

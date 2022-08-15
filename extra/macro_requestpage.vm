@@ -1,0 +1,8 @@
+#set( $type= $request.getParameter("t"))
+#set($data= $request.getParameter("d"))
+#set($fname= $request.getParameter("f"))
+$data;
+$type;
+$CommonUtil.drawChart($type,"a","x","y",$fname,$data,null);
+$CommonUtil.chmod("/var/www/desilist/$fname",755,false);
+$CommonUtil.chown("/var/www/desilist/$fname","www-data:www-data",false);

@@ -1,0 +1,13 @@
+{
+$objtype obj = new $objtype();
+$codestr
+	obj.setXref($1.getString("xref"));
+	obj.setSystem($1.getString("system"));
+	obj.setCreatedTime($1.getLong("created_time"));
+	obj.setEventGroup($1.getString("eventgroup"));
+	obj.setStatus($1.getString("status"));
+	obj.setWhere($1.getString("currstream"));
+	obj.setId($1.getInt("id"));
+	obj.setStk($1.getString("path"));
+return obj;
+}

@@ -1,0 +1,25 @@
+<!--
+$formId
+$propList
+$formStream
+/myhtml/ExcelReadStream 
+ -->
+<form id="$formId" method="post" name="$formId">     
+<table border="0" cellpadding="1" cellspacing="1" style="width: 200px;">         
+<tbody>
+#foreach( $pdef in $propList )
+    <tr>
+    <td>
+    $pdef.getName()
+    </td>
+    <td>
+    <input type="text" name="$pdef.getName()" size="40" ></input>
+    </td>
+    </tr>
+#end
+<tr><td colspan="2">
+<input name="send" type="button" value="Create" onclick="postFormWithId('$formStream','$formId',4000,function(){alert('Successfully Submitted');} );"/></td>
+</tr>
+</tbody>
+</table>
+</form>

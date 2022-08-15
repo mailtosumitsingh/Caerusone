@@ -1,0 +1,5 @@
+{
+$objtype obj = new $objtype();
+$codestr
+return obj;
+}

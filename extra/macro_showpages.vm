@@ -1,0 +1,22 @@
+
+var data = pData.data;
+var str = "";
+for (i in data){
+if( data[i].type=="node"){
+str +=data[i].id+"\n";
+}
+}
+// findDrawEleById
+// findNodeById
+#set( $id = $req.getParameter("c"))
+#if(!$id)
+#set( $foo = $DBHelper.getResultJson("select a1,a2,a3 from page_events") )
+#else
+#set( $foo = $DBHelper.getResultJson("select a1,a2,a3 from page_events where a3='$id'") )
+#end
+var comps =  $foo ;
+if(lastSelectedNode!=null){
+var mainId = lastSelectedNode.id;
+showAssociatedNodes(comps,mainId);
+}
+

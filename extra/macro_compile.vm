@@ -1,0 +1,40 @@
+/*Result */
+var data = pData.data;
+var str = "";
+for (i in data){
+if( data[i].type=="node"){
+//str +=data[i].id+"\n";
+}else if( data[i].type=="stream"){
+str +=data[i].id+"\n";
+}
+saveGraphEle(data[i]);
+}
+
+alert(str);
+function saveGraphEle(obj){
+
+if(obj.type=="stream"){
+var objstr = dojo.toJson(obj);
+CallWebServiceSilent("SaveStream",objstr);
+}
+
+if(obj.type=="node"){
+var objstr = dojo.toJson(obj);
+CallWebServiceSilent("SaveNode",objstr);
+}
+
+if(obj.type=="event"){
+var objstr = dojo.toJson(obj);
+CallWebServiceSilent("SaveEvent",objstr);
+}
+
+if(obj.type=="connection"){
+var objstr = dojo.toJson(obj);
+CallWebServiceSilent("SaveConnection",objstr);
+}
+
+if(obj.type=="route"){
+var objstr = dojo.toJson(obj);
+CallWebServiceSilent("SaveRoute",objstr);
+}
+}

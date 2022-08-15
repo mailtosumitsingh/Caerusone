@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"  
+ 	xmlns:util="http://www.springframework.org/schema/util"
+      
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+	default-lazy-init="true" >
+
+<!--  
+ JMX Configuration 
+ http://forum.springsource.org/showthread.php?17620-Full-example-of-JMX-in-spring
+ http://www.springbyexample.org/examples/spring-jmx.html
+ -Dspring.file=springConf.xml -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
+ -->
+         <bean id="clientConnector" class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean">
+                <property name="serviceUrl" value="service:jmx:rmi:///jndi/rmi://192.168.2.6:1099/jmxrmi"/>
+        </bean>
+<bean id="groupHelper" class="org.springframework.jmx.access.MBeanProxyFactoryBean" >
+     <property name="objectName" value="bean:name=groupHelper" />
+     <property name="proxyInterface" value="org.ptg.cluster.group.IGroupHelper" />
+     <property name="server" ref="clientConnector" />
+    
+</bean> 	
+
+
+</beans>
+ 

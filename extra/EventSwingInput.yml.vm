@@ -1,0 +1,9 @@
+JDialog(name=dlg, title=Enter Values, size=packed):
+    - JButton(name=save, text=Ok, onAction=[done])
+    - JButton(name=cancel, text=Cancel, onAction=[cancel])
+    - MigLayout: |
+          [pref]                     [grow,100]    
+#foreach( $pdef in $proplist )
+          "$c.capitalize($pdef.getName())"          txt$c.capitalize($pdef.getName())+*
+#end
+          >save+*=1,cancel=1

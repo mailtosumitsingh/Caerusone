@@ -1,0 +1,77 @@
+//pCanvas.clear();
+var syy=mouseY;
+var sxx = mouseX;
+var lbl= new Array();
+lbl.push ("a111111111");
+lbl.push ("b222222222");
+lbl.push ("c333333333");
+lbl.push ("d44444444");
+lbl.push ("e555555555555");
+showCMenu(sxx,syy,lbl);
+function showCMenu(sx,sy,lbl){
+if(cmenu==null){
+	 cmenu = new Array();
+}else{
+for ( var mi in cmenu){
+	var tempmenu = cmenu[mi];
+    tempmenu.lbl.remove();
+    tempmenu.path.remove();
+}
+}
+var cnt = lbl.length;
+var d = 2*Math.PI/cnt
+var angle = 0;
+var distance = 20;
+
+for (var i = 0 ;i<cnt;i++){
+var menuitem = {};
+var y1 = Math.round( sy + distance * Math.sin( angle ) );
+var x1 = Math.round( sx + distance * Math.cos( angle ) );
+var y3 = Math.round( sy + distance*5 * Math.sin( angle ) );
+var x3 = Math.round( sx + distance*5 * Math.cos( angle ) );
+var y2 = Math.round( sy + distance*6 * Math.sin( angle+d/2 ) );
+var x2 = Math.round( sx + distance*6 * Math.cos( angle+d/2 ) );
+
+var y7 = Math.round( sy + distance*4.5* Math.sin( angle+d/2 ) );
+var x7 = Math.round( sx + distance*4.5 * Math.cos( angle+d/2 ) );
+
+angle +=d;
+var y4 = Math.round( sy + distance * Math.sin( angle ) );
+var x4 = Math.round( sx + distance * Math.cos( angle ) );
+var y6 = Math.round( sy + distance*5* Math.sin( angle ) );
+var x6 = Math.round( sx + distance*5 * Math.cos( angle ) );
+var y5 = Math.round( sy + distance* Math.sin( angle-d/2) );
+var x5 = Math.round( sx + distance* Math.cos( angle -d/2) );
+
+var pth = pCanvas.path("M "+x1+" "+y1 +" L"+x3+" "+y3 +" Q "+x2 +" "+y2+" " +x6 +" " +y6+" L" +x4 +" "+ y4+" Q "+x5+" "+y5+" " +x5+" " +y5+" Z");
+menuitem.path  = pth;
+pth.attr("stroke","#6699FF")
+pth.attr("fill","#6699FF")
+pth.attr("fill-opacity",".4")
+pth.toFront();
+var lb = lbl.shift();
+pth.node.lbl = lb;
+pth.mouseout(function (event) {
+    this.attr({"fill-opacity": ".4"});
+});
+pth.mouseover(function (event) {
+    this.attr({"fill-opacity": ".1"});
+});
+pth.click(function (event) {
+var lbt=  this.node.lbl;
+    alert(lbt);
+});
+
+pth = pCanvas.text(x7,y7,lb);
+pth.toFront();
+menuitem.lbl = pth;
+pth.node.lbl = lb;
+pth.click(function (event) {
+var lbt=  this.node.lbl;
+    alert(lbt);
+});
+ cmenu.push(menuitem);
+}
+
+
+}

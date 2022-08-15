@@ -1,0 +1,26 @@
+var c=["Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Colusa", "ContraCosta", "DelNorte", "ElDorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kern", "Kings", "Lake", "Lassen", "LosAngeles", "Madera", "Marin", 
+"Mariposa", "Mendocino", "Merced", "Modoc", "Mono", "Monterey", "Napa", "Nevada", "Orange", "Placer", "Plumas", "Riverside", "Sacramento", "SanBenito", "SanBernardino", "SanDiego", "SanFrancisco", "SanJoaquin",
+"SanLuisObispo", "SanMateo", "SantaBarbara", "SantaClara", "SantaCruz", "Shasta", "Sierra", "Siskiyou", "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura", "Yolo",
+"Yuba"];
+
+var j = 1;
+for (i in c){
+console.log(c[i]);
+addPropertyToEvent("CountyData",c[i],"double",j);
+j++;
+}
+function addPropertyToEvent(evt,name,type,index){
+  var evt = findNodeById(evt);
+  var prop = {};
+   if(evt!=null){
+         if(evt.props == null){
+         evt.props = {};
+         }
+         prop.searchable = 1;
+         prop.name = name;
+         prop.index = index;
+         prop.type=type;
+         evt.props[prop.index] = prop;
+         console.log("Added property "+dojo.toJson(prop));
+}
+}

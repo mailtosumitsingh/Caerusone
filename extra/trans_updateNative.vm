@@ -1,0 +1,20 @@
+{
+$objtype obj = ($objtype) $1;
+String sql = "update "+Table+" set $dynaprop where "+$1;
+org.ptg.util.db.DBHelper inst = org.ptg.util.db.DBHelper.getInstance();
+java.sql.Connection conn = inst.createConnection();
+java.sql.PreparedStatement stmt =null;
+int tempvar =0;
+		try {
+		stmt = conn.prepareStatement(sql);
+		$codestr
+		stmt.executeUpdate();		
+System.out.println("Executed Successfully");
+		} catch (Exception e) {
+     		e.printStackTrace();
+		} finally{
+        		inst.closeStmt(stmt);
+        		inst.closeConnection(conn);
+		}
+		System.out.println("Sql:" +sql);
+	}

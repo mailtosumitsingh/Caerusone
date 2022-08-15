@@ -1,0 +1,26 @@
+<div>
+<script>
+function ${id}${name}Code(tv){
+var url="/site/GenerateFunctionBlocks?cls=${cls}&mtd="+tv+"&name="+tv+"&uitype=${uiType}&grpid=${id}${name}(MethodCall)&nosave=true";
+var code = doGetHtmlSync(url);  
+var code = dojo.fromJson(code);
+console.log(code[0]);
+dojo.byId("${id}${name}fs_cntndiv").innerHTML=code[0];
+findNodeById("${id}${name}(MethodCall)").script=code[1];
+var comp = findComponentByName("${id}${name}(MethodCall)");
+comp.script=code[1];
+}
+function ${id}${name}SelChange(){
+genericFunctionModuleSelectionChange('${id}${name}','${id}${name}_funcserv');
+}
+</script>   <p>
+        <span><select class="portable" grpid="${id}${name}(MethodCall)" 
+        id="${id}${name}_funcserv" index="0" name="${id}${name}_funcserv" 
+        onchange="${id}${name}SelChange()" ptype="input" pval="saveDesign" size="1">
+        #foreach( $pdef in $items )
+        <option value="$pdef">$pdef</option>
+        #end
+        </select></span></p>
+    <div id="${id}${name}fs_cntndiv">
+        &nbsp;</div>
+</div>

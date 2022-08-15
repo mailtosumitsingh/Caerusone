@@ -1,0 +1,107 @@
+/*
+Licensed under gpl.
+Copyright (c) 2010 sumit singh
+http://www.gnu.org/licenses/gpl.html
+Use at your own risk
+Other licenses may apply please refer to individual source files.
+*/
+
+.body{
+	margin: 0px;
+	padding: 0px;	
+	font-family: Arial;
+	font-size: 10pt;
+}
+
+#canvasDiv{
+	margin: 100px;
+	/*border: 1px solid;*/
+	width: 800px;
+	height: 800px;
+}
+
+#mainTable{
+	width: 100%;
+	height: 100%;
+	/*border: 1px solid;*/
+}
+
+#topBarTD{
+	width : 65%;
+	height : 35px;
+	/*border-bottom: 1px solid;*/
+}
+
+#leftLogoTD{
+	width: 15%;
+	height: 35px;
+}
+
+#rightTD{
+	width: 15%;
+	height: 35px;		
+	
+}
+
+#sideMenuTD{
+	width: 15%;
+	height: 650px;
+	/*border-right: 1px solid;*/
+}
+
+#drawingCanvasTD{
+	width: 70%;
+	height: 650px;	
+	border-right: 1px solid;
+}
+
+#middleTD{
+	width: 100%;
+	height: 650px;	
+}
+
+#CanvasSplitContainer{
+	border: 1px solid #bfbfbf; 
+	float: left; 
+	width: 100%; 
+	height: 650px;	
+}
+
+#rightPalateTD{
+	width: 15%;
+	height: 650px;	
+}
+
+#cmdRowTD{
+	/*border-top: 1px solid;*/
+	width: 100%;
+	height : 50px;	
+}
+
+#graph{
+	width: 1200px;
+	height: 1000px;
+		
+}
+
+.tableHeader{
+	font-size: 12pt;
+	font-weight: bold;
+	font-family: arial;
+}
+
+.tabColName{
+	font-size: 10pt;
+	font-weight: bold;
+	font-family: arial;	
+	border: 1px solid threedlightshadow;
+}
+
+.tabColValue{
+	font-size: 10pt;
+	font-weight: normal;
+	font-family: arial;	
+	border: 1px solid threedlightshadow;
+}
+
+

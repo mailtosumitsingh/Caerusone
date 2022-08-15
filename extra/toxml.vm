@@ -1,0 +1,21 @@
+{
+StringBuilder b = new StringBuilder();
+b.append("<Event id=\"");
+b.append(getId());
+b.append("\">");
+#foreach( $pro in $properties )
+b.append("<Property>\n");
+b.append("<key>");
+b.append("$pro.getKey()");
+b.append("</key>\n");
+b.append("<value>\n");
+b.append("<![CDATA[\n");
+b.append($pro.getValue());
+b.append("\n]]>\n");
+b.append("</value>\n");
+b.append("</Property>\n");
+#end
+
+b.append("</Event>");
+return b.toString();
+}

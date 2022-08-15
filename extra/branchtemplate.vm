@@ -1,0 +1,8 @@
+
+	if(${condexpr}==${cond}){
+			stmt.setString(${idxstr},${val1});
+			}
+			else{
+			stmt.setString(${idxstr},${val2});
+			}
+			

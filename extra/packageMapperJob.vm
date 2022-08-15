@@ -1,0 +1,52 @@
+package org.ptg.tests;
+
+import org.ptg.admin.WebStartProcess;
+import org.ptg.events.Event;
+import org.ptg.events.EventDefinition;
+import org.ptg.events.EventDefinitionManager;
+import org.ptg.processors.ProcessorDef;
+import org.ptg.processors.ProcessorManager;
+import org.ptg.stream.Stream;
+import org.ptg.util.CommonUtil;
+import org.ptg.util.Graph;
+import java.util.*;
+import org.apache.commons.collections.*;
+import java.io.*;
+public class ${classname} {
+	public static void main(String[] args) throws Exception {
+		WebStartProcess wbs = 	WebStartProcess.getInstance();
+		wbs.startRoutingEngine();
+		wbs.startScriptEngine();
+		wbs.startCepEngine();
+		String graphjson = null;
+		/*this is graph as statically compiled resource
+		graphjson variable is predefined above and always 
+		*/
+		
+		graphjson = org.apache.commons.io.FileUtils.readFileToString(new File("c:/projects/caerusone/tests/org/ptg/tests/${classname}"+".process"));
+		
+		/*this code is static and rus the graph*/
+		
+		
+		String name = "${name}";
+		String mappingtype = "${mappingtype}";
+		Map<String, String> params = new HashMap<String, String>();
+		if (mappingtype == null)
+			mappingtype = "ToDo";
+
+
+			params.put("eventtype","${eventtype}");
+			params.put("mappingtype","${mappingtype}");
+		try {
+			Closure c = (Closure)CommonUtil.instantiateMappingGraph2(name, graphjson, mappingtype, params);
+			if(c!=null){
+			c.execute(null);
+			}else{
+			System.out.println("Failed to compile the job");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		CommonUtil.exit(0);
+	}
+}

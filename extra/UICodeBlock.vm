@@ -1,0 +1,38 @@
+function createClass(f, a,compname,isui,mx,my,configobj) {
+	var uid = "";
+	if(isui==true){
+		uid =prompt('Definition Name', 'MyFirstDef');
+	var a = showEditor("public static <br> void main(){}",uid);
+	var a = createHeadlessDynamicModuleHolder(uid);
+	a.style.left = mouseX;
+	a.style.top = mouseY;
+	a.style.width = 48;
+	a.style.height = 48;
+	a.style.zIndex= 1000;
+	var mnode = dojo.create("img", {"src":"/site/images/coding.png","style":"width:100%;height:100%"}, dojo.byId("bid_"+uid));
+	dojo.attr(mnode, "id","img_"+uid);
+	var code="showEditor(globals[\""+uid+"code\"],\""+uid+"\")";
+	console.log("code: "+code);
+	console.log("just before");
+	configobj = {"id":uid,"name":compname,"mouseX":mx,"mouseY":my,"zindex":zindex,"code":globals[uid+"code"] };
+	console.log(configobj);
+	compDiag.push(configobj);
+	var fun = (new Function(code));
+	dojo.connect(mnode,"ondblclick",fun);
+	}else{
+		uid = configobj.id;
+		globals[uid+"code"]=configobj.code;
+		var a = createHeadlessDynamicModuleHolder(uid);
+		a.style.left = mouseX;
+		a.style.top = mouseY;
+		a.style.width = 48;
+		a.style.height = 48;
+		a.style.zIndex= configobj.zindex;
+		var mnode = dojo.create("img", {"src":"/site/images/${iconfile}","style":"width:100%;height:100%"}, dojo.byId("bid_"+uid));
+		dojo.attr(mnode, "id","img_"+uid);
+		var code="showEditor(globals[\""+uid+"code\"],\""+uid+"\")";
+		console.log("code: "+code);
+		var fun = (new Function(code));
+		dojo.connect(mnode,"ondblclick",fun);
+	}
+}
