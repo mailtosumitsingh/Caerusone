@@ -50,7 +50,6 @@ public class RunUICodeFlow extends AbstractHandler {
 			response.getOutputStream().print("Could not compile:\n" + e);
 			e.printStackTrace();
 		}
-
 		((Request) request).setHandled(true);
 	}
 

@@ -40,7 +40,7 @@ public class WebStartProcess {
 	private HTTPServer templateServer;
 	private SystemRouter systemRouter;
     private static IPluginManager pluginsManager;
-    
+    private AutomationServer automationServer;
     private static AppContext ctx; 
 	private WebStartProcess() {
 		if (b.getAndSet(true)) {
@@ -69,11 +69,19 @@ public class WebStartProcess {
 		CommonUtil.saveLog("Starting Routing Engine", "SystemEvent");
 		p.startRoutingEngine();
 		p.s.addObject("re", p.r);
+		CommonUtil.saveLog("Starting Automation Server", "SystemEvent");
+		p.startAutomationServer();
+		
 		CommonUtil.saveLog("initiating Sytem ", "SystemEvent");
 		p.initSystem();
 		  initPlugins();
 		// TestSendSubscriptionEvent.execute();
 
+	}
+
+	private void startAutomationServer() {
+			this.automationServer = new AutomationServer();
+			this.automationServer.start();
 	}
 
 	public static void initPlugins() {
@@ -301,4 +309,13 @@ public class WebStartProcess {
 	public void setSystemRouter(SystemRouter systemRouter) {
 		this.systemRouter = systemRouter;
 	}
+
+	public AutomationServer getAutomationServer() {
+		return automationServer;
+	}
+
+	public void setAutomationServer(AutomationServer automationServer) {
+		this.automationServer = automationServer;
+	}
+	
 }

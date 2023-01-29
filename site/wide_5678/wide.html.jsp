@@ -162,6 +162,7 @@ Other licenses may apply please refer to individual source files.
 		urlMap.CompileObjectMapping="/site/CompileObjectMapping";
 		urlMap.ProcessingPlan = "/ProcessingPlan";
 		urlMap.CompileTaskPlanV2="/CompileTaskPlanV2";
+		urlMap.RunAutomationProcess="/RunAutomationProcess";
 		urlMap.GetProtoLayout = "/site/GetProtoLayout";
 		urlMap.GetTaskSpecs = "/site/GetTaskSpecs";
 		urlMap.GetTaskSpecs = "/site/GetAnnotSpecs";
@@ -3113,6 +3114,10 @@ return temp;
 							onClick="menuItemClicked(this.id);compileMapperOnServer6()">
 							<b>Compile Task Plan</b>
 						</div>
+						<div dojoType="dijit.MenuItem" id="runAutomation1"
+							onClick="menuItemClicked(this.id);runAutomation1()">
+							<b>Run Automation</b>
+						</div>
 						<div dojoType="dijit.MenuItem" id="compileMappingOnServerToCodeMI"
 							onClick="menuItemClicked(this.id);compileMapperOnServerToCode()">
 							<b>Compile To Code </b>
@@ -3315,6 +3320,9 @@ return temp;
 				<div dojoType="dijit.MenuItem" onClick="if(clonemode==true){clonemode=false;}else {clonemode=true}"  >Clone Mode</div>
 				<div dojoType="dijit.MenuItem" onClick="if(bndryMoveMode==true){bndryMoveMode=false;}else {bndryMoveMode=true}"  >Boundry Move Mode</div>
 				<div dojoType="dijit.MenuItem" onClick="if(renderDesignMode==true){renderDesignMode=false;}else {renderDesignMode=true};draw();"  >renderDesignMode</div>	
+				<div dojoType="dijit.MenuItem" onClick="if(showPixelVal==true){showPixelVal=false;}else {showPixelVal=true};draw();"  >ShowPixelVal</div>	
+				
+				
 				<div dojoType="dijit.MenuItem" onClick="if(controlMode==true){controlMode=false;}else {controlMode=true};draw();"  >controlMode</div>	
 				<div dojoType="dijit.MenuItem" onClick="printAllShapeAngles();"  >Show Angles</div>	
 			</div>

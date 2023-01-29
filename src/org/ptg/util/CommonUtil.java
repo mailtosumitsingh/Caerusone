@@ -169,6 +169,7 @@ import org.ptg.script.ScriptEngine;
 import org.ptg.stream.Stream;
 import org.ptg.stream.StreamDefinition;
 import org.ptg.stream.StreamManager;
+import org.ptg.util.awt.BBox;
 import org.ptg.util.closures.IStateAwareClosure;
 import org.ptg.util.closures.MethodClosure;
 import org.ptg.util.db.ColDef;
@@ -4130,6 +4131,7 @@ public class CommonUtil {
 		String code = VelocityHelper.burnTemplate(m, "mapping_" + mappingtype + ".vm").toString();
 		String dest = "Mapping_" + name + ".java";
 		code = TitanCompiler.compile(code);
+		System.out.println("Code: "+code);
 		Object cl = null;
 		org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path + dest), code.getBytes());
 		Class cls = CommonUtil.compileJavaToClassFresh(path, "Mapping_" + name);
@@ -7119,14 +7121,19 @@ public class CommonUtil {
 		return covertAllFPGRaphItemsToJGrapht(g, graph, null);
 	}
 
+	
 	public static Multimap<String, String> covertFPGRaphToJGrapht(FPGraph2 g, final DirectedMultigraph<String, DefaultEdge> graph) {
 		com.google.common.collect.Multimap<String, String> ret = LinkedHashMultimap.create();
 		Map<String, AnonDefObj> anonCompMap = CommonUtil.prepareAnonMap(g.getAnonDefs());
 		Map<String, String> filter = new HashMap<String, String>();
+
+		
+		
+		
 		for (ConnDef cd : g.getForward().values()) {
 			PortObj from = g.getPorts().get(cd.getFrom());
 			PortObj to = g.getPorts().get(cd.getTo());
-			if (from != null && to != null && from.getPorttype().equals("aux") && to.getPorttype().equals("aux")) {
+			if (from != null && to != null ) {
 				String f = from.getGrp();
 				AnonDefObj fa = anonCompMap.get(f);
 				String t = to.getGrp();
@@ -7445,12 +7452,15 @@ public class CommonUtil {
 				}
 
 			}
+			
 		}
 		types = new ArrayList<TypeDefObj>();
 		for (TypeDefObj t : typeMap.values()) {
 			types.add(t);
 		}
 		o.setTypeDefs(types);
+		
+
 		for (AnonDefObj aod : o.getAnonDefs()) {
 			fixBadIndexedAnonDef(aod);
 		}
@@ -8243,4 +8253,19 @@ public class CommonUtil {
 		System.out.println(inet.isReachable(5000) ? "Host is reachable" : "Host is NOT reachable");
 
 	}
+	public static List<BBox> getGraphToAnnotations(String name){
+		FPGraph2 fp2 = CommonUtil.buildDesignMappingGraph2(name);
+		Map<String, Shape> shapes = fp2.getShapes();
+			List<BBox> rectangles = new ArrayList<>();
+			for(Shape sh : shapes.values()) {
+				BBox r = new BBox();
+				r.x = sh.getX();
+				r.y = sh.getY();
+				r.b = sh.getB();
+				r.r= sh.getR();
+				r.id  = sh.getId();
+				rectangles.add(r);
+				}
+			return rectangles;
+		}
 }

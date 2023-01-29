@@ -16,3 +16,5 @@ I use explicitly eclipse and you can find launch file in root of project.
 
 To acces run code and access through your google chrome at :
 http://localhost:8095/site/wide_5678/wide.html.jsp?page=TestAndroidAppMakey&designMode=true
+
+http://localhost:8095/GetAnnotations?name=ImageAnnotationExample&bbox=true

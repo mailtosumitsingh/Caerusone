@@ -2102,24 +2102,26 @@ function connectLinks(connection) {
 					bb2.width = sw2;
 					bb2.height = sh2;
 				}
-				var isport1 = false,isport2=false;
-				if((node1!=null&&node1.type=="Port"))
-					isport1=true;
-				if((node2!=null&&node2.type=="Port"))
-					isport2 =  true;
 				if(node1!=null){
 					bb1.nd = node1;
+					if(node1.type=="ShapeShape"){
+					bb1.x = node1.x;
+					bb1.y = node1.y;
+					bb1.r = node1.r;
+					bb1.b = node1.b;
+					}
+					
 				}
 				if(node2!=null){
 					bb2.nd = node2;
+					if(node2.type=="ShapeShape"){
+					bb2.x = node2.x;
+					bb2.y = node2.y;
+					bb2.r = node2.r;
+					bb2.b = node2.b;
 				}
-
-				/*if(isport1||isport2){
-					arrowLinkPort(bb1, bb2, comps, connection.id,isport1,isport2);
-				}else*/
-				{
-					arrowLink2(bb1, bb2, comps, connection.id);
 				}
+				arrowLink2(bb1, bb2, comps, connection.id);
 				
 			}
 		}

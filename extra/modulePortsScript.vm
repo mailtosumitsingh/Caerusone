@@ -4,7 +4,7 @@
 <td>
 <label for="$pdef.grpid$pdef.name">$pdef.label</label>
 <input class="portable" grpid="$pdef.grpid" id="$pdef.grpid$pdef.name" index="$pdef.index" name="$pdef.name" 
-onchange="var tn =dojo.byId('$pdef.grpid$pdef.name');var tnv = tn.value; findNodeById('aux_$pdef.grpid.$pdef.grpid$pdef.name').portval = tnv; dojo.attr(tn,'pval', tnv);tn.setAttribute('value',tnv);syncModuleCode(tn.getAttribute('grpid'));" ptype="aux" pval="$pdef.defaultVal" type="text" value="$pdef.defaultVal" />
+onchange="var tn =dojo.byId('$pdef.grpid$pdef.name');var tnv = tn.value; findNodeById('aux_$pdef.grpid.$pdef.grpid$pdef.name').portval = tnv; dojo.attr(tn,'pval', tnv);tn.setAttribute('value',tnv);syncModuleCode(tn.getAttribute('grpid'));" ptype="aux" pval='$pdef.defaultVal' type="text" value='$pdef.defaultVal' />
 </td>
 </tr>
 #end
@@ -12,7 +12,7 @@ onchange="var tn =dojo.byId('$pdef.grpid$pdef.name');var tnv = tn.value; findNod
 <tr>
 <td>
 <input class="portable" disabled="disabled" grpid="$pdef.grpid" id="$pdef.grpid$pdef.name" index="$pdef.index" name="$pdef.name" 
-onchange="var tn =dojo.byId('$pdef.grpid$pdef.name');var tnv = tn.value; findNodeById('out_$pdef.grpid.$pdef.grpid$pdef.name').portval = tnv; dojo.attr(tn,'pval', tnv);tn.setAttribute('value',tnv);syncModuleCode(tn.getAttribute('grpid'));" ptype="output" pval="$pdef.name" readonly type="text" value="$pdef.name" />
+onchange="var tn =dojo.byId('$pdef.grpid$pdef.name');var tnv = tn.value; findNodeById('out_$pdef.grpid.$pdef.grpid$pdef.name').portval = tnv; dojo.attr(tn,'pval', tnv);tn.setAttribute('value',tnv);syncModuleCode(tn.getAttribute('grpid'));" ptype="output" pval='$pdef.name' readonly type="text" value='$pdef.name' />
 </td>
 </tr>
 #end

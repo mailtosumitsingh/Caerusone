@@ -66,11 +66,6 @@ import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 public class CompileTaskPlanV2 extends AbstractHandler {
 	Map<String, ITaskExecEventListener> listners = new HashMap<String, ITaskExecEventListener>();
 	Map<String, ITaskFunction> functions = new LinkedHashMap<String, ITaskFunction>();
-	DirectedSparseMultigraph<AnonDefObj, String> graph = new DirectedSparseMultigraph<AnonDefObj, String>();
-	List<AnonDefObj> starts = new ArrayList<AnonDefObj>();
-	List<AnonDefObj> ends = new ArrayList<AnonDefObj>();
-	private boolean multiFanoutAllowed = false;
-	private Set<AnonDefObj> depsResolved;
 	boolean persist = false;
 	boolean trace = false;
 

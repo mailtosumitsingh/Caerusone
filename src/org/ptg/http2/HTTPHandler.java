@@ -21,6 +21,7 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.ptg.http2.handlers.CodeToPortJava;
 import org.ptg.http2.handlers.GetAnnotSpecs;
+import org.ptg.http2.handlers.GetAnnotations;
 import org.ptg.http2.handlers.GetCanvas;
 import org.ptg.http2.handlers.GetMenuGroup;
 import org.ptg.http2.handlers.GetSQLLayout;
@@ -206,6 +207,8 @@ public class HTTPHandler extends AbstractHandler {
 		handlers.put("/site/CompileObjectMapping", new org.ptg.http2.handlers.compilers.graph.CompileObjectMapping());
 		handlers.put("/ProcessingPlan", new ProcessingPlan());
 		handlers.put("/CompileTaskPlanV2", new org.ptg.http2.handlers.compilers.graph.CompileTaskPlanV2());
+		handlers.put("/RunAutomationProcess", new org.ptg.http2.handlers.compilers.graph.RunAutomationProcess());
+		
 		handlers.put("/site/FindItemsViaIntersection", new FindItemsViaIntersection());
 		handlers.put("/site/SaveRecentMenu", new SaveRecentMenu());
 		handlers.put("/site/runGraph", new ExecuteGraph());
@@ -229,7 +232,7 @@ public class HTTPHandler extends AbstractHandler {
 		handlers.put("/site/PathToPoints", new PathToPoints());
 		handlers.put("/site/svgToShapeObj", new SVGExtracterToShape());
 
-		
+		handlers.put("/GetAnnotations", new GetAnnotations());
 	}
 
 	@Override

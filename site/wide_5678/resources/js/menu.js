@@ -975,7 +975,8 @@ function GetStreams() {
 	loc.innerHTML = "";
 	for (var i = 0; i < pData.data.length; i++) {
 		var obj = pData.data[i];
-		if (obj.type == 'stream') {
+		//if (obj.type == 'stream')
+		 {
 			dojo.create("option", {
 				innerHTML : obj.id
 			}, loc);
@@ -1876,6 +1877,23 @@ function compileMapperOnServerToCode(mtype, eventtype) {
 	});
 }
 
+
+function runAutomation1(mtype, eventtype) {
+	var objstr = dojo.toJson(pData.data);
+	var req = {};
+	req.name = currentGraph;
+	req.process = objstr;
+	req.mainTable = null;
+	req.trace = true;
+	if (eventtype != null)
+		req.eventtype = eventtype;
+	if (mtype != null)
+		req.mappingtype = mtype;
+	var url = getURL("RunAutomationProcess");
+	postFormWithContent(url, req, function(res) {
+		dynaHtmlDlg(res, "Message", null, "", "ok");
+	});
+}
 function compileMapperOnServer6(mtype, eventtype) {
 	var objstr = dojo.toJson(pData.data);
 	var req = {};
