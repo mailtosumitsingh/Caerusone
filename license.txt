@@ -4,3 +4,5 @@ http://www.gnu.org/licenses/gpl.html
 Use at your own risk
 Other licenses may apply please refer to individual source files.
 */
+
+Libraries have their own licensing most of them require source code link to them be available. So releasing under GPL Which is most restrictive of any library this code base uses.
