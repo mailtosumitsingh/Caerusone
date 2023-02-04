@@ -1,9 +1,8 @@
 import org.ptg.eventloop.*;
 import java.util.*;
 import org.sikuli.script.Region ;
-public class ${name} extends org.ptg.eventloop.AutomationHelper implements Runnable {
-public void run(){
-		java.util.HashMap ctx = new java.util.HashMap();
+public class ${name} extends org.ptg.eventloop.AutomationHelper  {
+public void run(java.util.Map<String,Object> ctx){
 System.out.println("Going to execute \"run\" method in ${name} now");
 Map<String,org.sikuli.script.Region> regions = new HashMap<>();
 ${precode}
@@ -12,20 +11,13 @@ ${code}
 
 public static void main(String[] args){
 ${name} testVar = new ${name}();
-
-testVar.run();
+Map<String,Object> map = new HashMap<String,Object>();
+testVar.run(map);
 }
 
-public int parseInt(String str) {
+	public int parseInt(String str) {
 		return Integer.parseInt(str);
 	}
-	public org.ptg.eventloop.Point findImageLoc(String img) {
-		System.out.println("Find image loc: "+img);
-		return null;
-	}
-	public org.ptg.eventloop.Point findImage(String img) {
-		System.out.println("Find image loc: "+img);
-		return null;
-	}
+
 
 }

@@ -9,10 +9,13 @@ import org.sikuli.script.Image;
 import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
+import org.sikuli.script.Screen;
 
 public abstract class AutomationHelper {
 	Robot r = new Robot();
+	public Region FullScreen = new Region(Screen.getPrimaryScreen());
 
+	public abstract void run(java.util.Map<String,Object> ctx );
 	public void click(int x, int y, int w, int h) {
 		r.click(x, y, w, h);
 	}

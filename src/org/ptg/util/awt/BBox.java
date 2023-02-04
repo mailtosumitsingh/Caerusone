@@ -6,7 +6,15 @@ public int y;
 public int r;
 public int b;
 public String id;
+public String tag;
 
+
+public String getTag() {
+	return tag;
+}
+public void setTag(String tag) {
+	this.tag = tag;
+}
 public String getId() {
 	return id;
 }

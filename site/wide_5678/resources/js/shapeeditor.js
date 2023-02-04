@@ -194,6 +194,8 @@ class Shape{
 		this.compName="arbit"
 		this.data={};
 		this.data["close"]=true;
+		this.data["tag"]="ImageMatch";
+		
 		this.shapeType="simple";//2d extruded
 	}
 	addPointToFacet(fid,prev,prev2,p){

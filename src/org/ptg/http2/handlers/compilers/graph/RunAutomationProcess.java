@@ -27,6 +27,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.jgrapht.alg.cycle.SzwarcfiterLauerSimpleCycles;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
+import org.ptg.eventloop.AutomationHelper;
 import org.ptg.processors.ConnDef;
 import org.ptg.util.CommonUtil;
 import org.ptg.util.awt.BBox;
@@ -35,7 +36,6 @@ import org.ptg.util.mapper.FunctionPoint;
 import org.ptg.util.mapper.PortObj;
 import org.ptg.util.mapper.TypeDefObj;
 import org.ptg.util.mapper.v2.FPGraph2;
-import org.sikuli.script.Region;
 
 import com.google.common.collect.Multimap;
 
@@ -51,7 +51,7 @@ public class RunAutomationProcess extends AbstractHandler {
 			throws IOException, ServletException {
 		String name = request.getParameter("name");
 		String graphjson = request.getParameter("process");
-		Map<String, Object> executionCtx = null;
+		Map<String, Object> executionCtx = new HashMap<String, Object>();
 		String instidStr = getUUIDStr(null);
 		int loopCount = 1;
 		try {
@@ -169,7 +169,10 @@ public class RunAutomationProcess extends AbstractHandler {
 				DefaultEdge.class);
 		// dependencies are dependent: dependencies
 		StringBuilder sb = new StringBuilder();
-		Multimap<String, String> dependencies = CommonUtil.covertFPGRaphToJGrapht(o, g);
+		//there ar e2 methods if we use all fp graph it will not add dependent other wise will add dependents
+		Multimap<String, String> dependencies = CommonUtil.covertAllFPGRaphItemsToJGrapht(o, g);//covertFPGRaphToJGrapht,covertAllFPGRaphItemsToJGrapht
+		System.out.println(g);
+		
 		// sumit this is added in the last
 		// g.addEdge("9", "6");
 		CommonUtil.fixMultipleStarts(g, null);
@@ -181,7 +184,6 @@ public class RunAutomationProcess extends AbstractHandler {
 		for (Map.Entry<String, AnonDefObj> en : anonCompMap.entrySet()) {
 			mapVnode.put(en.getKey(), new VNode<AnonDefObj>(en.getValue()));
 		}
-
 		for (List<String> cycle : cycles) {
 			VNode<AnonDefObj> vnode = mapVnode.get(cycle.get(0));
 			vnode.setSelf(anonCompMap.get(cycle.get(0)));
@@ -193,35 +195,13 @@ public class RunAutomationProcess extends AbstractHandler {
 			mapVnode.put(vnode.getSelf().getId(), vnode);
 			// remove g cycles and vnodes
 		}
-
+		System.out.println(g);
 		List<String> ports = CommonUtil.topologicallySort(g);
 		System.out.println(ports);
 		System.out.println("Wait");
-		for (String s : ports) {
-			VNode<AnonDefObj> v = mapVnode.get(s);
-			if (v == null) {
-				System.out.println("Could not find vnode: " + s);
-			} else {
-				System.out.println("Running vnode: " + v.getSelf().getId());
-				if (v.getChildren().size() > 0) {
-					String codetoAdd = getCode2(o, ctx, v.getSelf());
-					sb.append(codetoAdd);
-
-					for (AnonDefObj child : v.getChildren()) {
-						System.out.println("\tRunning child: " + child.getId());
-						String codetoAddChild = getCode(o, ctx, child);
-						sb.append(codetoAddChild);
-
-					}
-					sb.append("\n}\n}");
-
-				} else {
-					String codetoAdd = getCode(o, ctx, v.getSelf());
-					sb.append(codetoAdd);
-
-				}
-
-			}
+		for (String port : ports) {
+			VNode<AnonDefObj> vnodeOBj = mapVnode.get(port);
+			generateCodeVnode(o, ctx, sb, port, vnodeOBj, mapVnode);
 
 		}
 		System.out.println(sb);
@@ -236,7 +216,7 @@ public class RunAutomationProcess extends AbstractHandler {
 				preCodeSB.append("/*region annotations goes here*/\n");
 				for (BBox b : bboxs) {
 					preCodeSB.append("org.sikuli.script.Region " + b.getId() + " = new org.sikuli.script.Region(" + b.x
-							+ "," + b.y + "," + b.r + "," + b.b + ");");
+							+ "," + b.y + "," + b.r + "," + b.b + ");/*" + b.getTag() + "*/");
 					preCodeSB.append("\n");
 				}
 				preCodeSB.append("/*END region annotations goes here*/\n");
@@ -245,15 +225,46 @@ public class RunAutomationProcess extends AbstractHandler {
 
 			Object runnable = CommonUtil.compileMappingGraph2(CommonUtil.getRandomString(8)/* "TestGenTaskToCode" */,
 					sb.toString(), "Automate", params);
-			if (runnable instanceof Runnable) {
-				Runnable r = (Runnable) runnable;
-				r.run();
+			if (runnable instanceof AutomationHelper) {
+				AutomationHelper r = (AutomationHelper) runnable;
+				r.run(ctx);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		return "";
+	}
+
+	private void generateCodeVnode(FPGraph2 o, Map<String, Object> ctx, StringBuilder sb, String port,
+			VNode<AnonDefObj> v, Map<String, VNode<AnonDefObj>> mapVnode) {
+		if (v == null) {
+			System.out.println("Could not find vnode: " + port);
+		} else {
+			System.out.println("Running vnode: " + v.getSelf().getId());
+			if (v.getChildren().size() > 0) {
+				String codetoAdd = getCode2(o, ctx, v.getSelf());
+				sb.append(codetoAdd);
+
+				for (AnonDefObj child : v.getChildren()) {
+					VNode<AnonDefObj> vnodeChild = mapVnode.get(child.getId());
+					if (vnodeChild.getChildren().size() > 0) {
+						generateCodeVnode(o, ctx, sb, port, vnodeChild, mapVnode);
+					} else {
+						System.out.println("\tRunning child: " + child.getId());
+						String codetoAddChild = getCode(o, ctx, child);
+						sb.append(codetoAddChild);
+					}
+				}
+				sb.append("\n}\n}");
+
+			} else {
+				String codetoAdd = getCode(o, ctx, v.getSelf());
+				sb.append(codetoAdd);
+
+			}
+
+		}
 	}
 
 	private String getCode(FPGraph2 o, Map<String, Object> ctx, AnonDefObj v) {
@@ -273,7 +284,7 @@ public class RunAutomationProcess extends AbstractHandler {
 		code = extractPatternCode(o, v, ctx, code, "aux", "\\{([a-zA-Z0-9_.-]+):([a-zA-Z0-9 _.\\\"]+)\\}");
 		code = extractPatternCode(o, v, ctx, code, "out", "\\<([a-zA-Z0-9_.-]+):([a-zA-Z0-9 _.\\\"]+)\\>");
 
-		return "{/*\"+v.getId()+\"*/\n" + code + "{\n";
+		return "{/*" + v.getId() + "*/\n" + code + "{\n";
 	}
 
 	private String extractPatternCode(FPGraph2 o, AnonDefObj v, Map<String, Object> ctx, String code, String ptype,
@@ -300,7 +311,8 @@ public class RunAutomationProcess extends AbstractHandler {
 					if (cd.getTo().equals(portObj.getId())) {
 						if (o.getPorts().get(cd.getFrom()) != null) {
 							vars.append("String var" + vi + " = \"" + cd.getFrom() + "\";\n");
-							val = "ctx.get(var" + vi + ")";
+							if(cd.getConnCond()==null ||cd.getConnCond().length()<1)
+								val = "ctx.get(var" + vi + ")";
 						}
 					}
 				}
@@ -314,6 +326,9 @@ public class RunAutomationProcess extends AbstractHandler {
 					for (ConnDef cd : o.getForward().values()) {
 						if (cd.getFrom().equals(portObj.getId())) {
 							sets.append("ctx.put(\"" + portObj.getId() + "\"," + key + ");\n");
+							if(cd.getConnCond()!=null) {
+								sets.append(cd.getConnCond().replace('"', ' ')+"("+  key +");");
+							}
 						}
 					}
 			}

@@ -7176,6 +7176,7 @@ function modifyObjectDataMap(shapeid){
 		defaultShapeDataItems["tollerance"]=".01";
 		defaultShapeDataItems["toolsize"]=wideconfig.toolsizeinmm;
 		defaultShapeDataItems["iter"]="1";
+		defaultShapeDataItems["tag"]="match";
 		}
 		if(shapeObjCurrent.type=="hole"){
 		defaultShapeDataItems["iter"]=".2";

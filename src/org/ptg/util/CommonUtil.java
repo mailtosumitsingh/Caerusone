@@ -8261,9 +8261,10 @@ public class CommonUtil {
 				BBox r = new BBox();
 				r.x = sh.getX();
 				r.y = sh.getY();
-				r.b = sh.getB();
 				r.r= sh.getR();
+				r.b = sh.getB();
 				r.id  = sh.getId();
+				r.setTag(sh.getData().get("tag"));
 				rectangles.add(r);
 				}
 			return rectangles;

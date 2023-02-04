@@ -49,7 +49,6 @@ public class CompileSubGraph extends AbstractHandler {
     Map<String,String> ctxVarNames =  new HashMap<String,String>();
 	public void handle(String arg0, Request arg1, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String name = request.getParameter("name");
-		String run = request.getParameter("run");
 		String mappingtype = "FreeSpring";
 		String mainId = request.getParameter("mainTable");
 		boolean isObject = request.getParameter("isobject")==null?false:true;
