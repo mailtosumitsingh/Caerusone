@@ -13,3 +13,5 @@
 /plugins/
 /luceneCommentIndex/
 *.out
+test.trace.db
+/test.trace.db
