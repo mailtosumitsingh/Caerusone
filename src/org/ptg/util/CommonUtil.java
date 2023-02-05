@@ -212,6 +212,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.yaml.snakeyaml.Yaml;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Predicate;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
@@ -864,7 +866,10 @@ public class CommonUtil {
 		net.sf.json.JSONObject o = net.sf.json.JSONObject.fromObject(obj);
 		return o.toString();
 	}
-
+	public static String toJsonObjectMapper(Object obj) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(obj);
+	}
 	public static String jsonFromCollection(Collection obj) {
 		JSONArray o = net.sf.json.JSONArray.fromObject(obj.toArray());
 		return o.toString();

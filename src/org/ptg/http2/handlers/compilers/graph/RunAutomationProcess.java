@@ -51,11 +51,12 @@ public class RunAutomationProcess extends AbstractHandler {
 			throws IOException, ServletException {
 		String name = request.getParameter("name");
 		String graphjson = request.getParameter("process");
+		boolean isDataFlow = request.getParameter("dataflow")==null?false:true;
 		Map<String, Object> executionCtx = new HashMap<String, Object>();
 		String instidStr = getUUIDStr(null);
 		int loopCount = 1;
 		try {
-			Map<String, Object> ctx = runApp(instidStr, name, graphjson, loopCount, executionCtx);
+			Map<String, Object> ctx = runApp(instidStr, name, graphjson, loopCount, executionCtx,isDataFlow);
 			response.getWriter().print(CommonUtil.toJson(ctx));
 		} catch (Exception e) {
 			response.getOutputStream().print("Could not compile:\n" + e);
@@ -66,24 +67,24 @@ public class RunAutomationProcess extends AbstractHandler {
 	}
 
 	public Map<String, Object> runApp(String uidStr, String name, String graphjson, int loopCount,
-			Map<String, Object> executionCtx) {
+			Map<String, Object> executionCtx, boolean isDataFlow) {
 		init(uidStr);
 		FPGraph2 o = CommonUtil.getMappingGraph(name, graphjson);
-		return runApp(uidStr, name, o, loopCount, executionCtx, null);
+		return runApp(uidStr, name, o, loopCount, executionCtx, null,isDataFlow);
 	}
 
 	public Map<String, Object> runApp(String uidStr, String name, FPGraph2 o, int loopCount,
-			Map<String, Object> executionCtx, FPGraph2 parent) {
+			Map<String, Object> executionCtx, FPGraph2 parent, boolean isDataFlow) {
 		List<TypeDefObj> types = o.getTypeDefs();
 		Map<String, TypeDefObj> typeMap = new LinkedHashMap<String, TypeDefObj>();
 		Map<String, AnonDefObj> anonCompMap = new HashMap<String, AnonDefObj>();
 		CommonUtil.getAnonFromUIModels(o, types, typeMap, anonCompMap);
 		CommonUtil.updateGraphicProps(anonCompMap, o.getPorts());
-		return createAndRunGraph(uidStr, name, o, loopCount, executionCtx, parent);
+		return createAndRunGraph(uidStr, name, o, loopCount, executionCtx, parent,isDataFlow);
 	}
 
 	public Map<String, Object> createAndRunGraph(String uidStr, String name, FPGraph2 o, int loopCount,
-			Map<String, Object> executionCtx, FPGraph2 parent) {
+			Map<String, Object> executionCtx, FPGraph2 parent, boolean isDataFlow) {
 		if (persist) {
 			executionCtx = (Map<String, Object>) CommonUtil.getVar("exec-" + uidStr);
 		}
@@ -104,7 +105,7 @@ public class RunAutomationProcess extends AbstractHandler {
 			// iterate graph here
 			String result = "";
 			try {
-				result = runGraph(name, uidStr, o, executionCtx, anonCompMap);
+				result = runGraph(name, uidStr, o, executionCtx, anonCompMap,isDataFlow);
 				if (persist) {
 					CommonUtil.saveVar("exec-" + uidStr, executionCtx);
 				}
@@ -164,13 +165,17 @@ public class RunAutomationProcess extends AbstractHandler {
 	}
 
 	public String runGraph(String name, String uidStr, FPGraph2 o, Map<String, Object> ctx,
-			Map<String, AnonDefObj> anonCompMap) throws Exception {
+			Map<String, AnonDefObj> anonCompMap, boolean isDataFlow) throws Exception {
 		final DirectedMultigraph<String, DefaultEdge> g = new DirectedMultigraph<String, DefaultEdge>(
 				DefaultEdge.class);
 		// dependencies are dependent: dependencies
 		StringBuilder sb = new StringBuilder();
 		//there ar e2 methods if we use all fp graph it will not add dependent other wise will add dependents
-		Multimap<String, String> dependencies = CommonUtil.covertAllFPGRaphItemsToJGrapht(o, g);//covertFPGRaphToJGrapht,covertAllFPGRaphItemsToJGrapht
+		if(isDataFlow)
+			CommonUtil.covertFPGRaphToJGrapht(o, g);
+		else
+			CommonUtil.covertAllFPGRaphItemsToJGrapht(o, g);
+		
 		System.out.println(g);
 		
 		// sumit this is added in the last

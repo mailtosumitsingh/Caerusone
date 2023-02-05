@@ -1876,7 +1876,24 @@ function compileMapperOnServerToCode(mtype, eventtype) {
 		dynaHtmlDlg(res, "Message", null, "", "ok");
 	});
 }
-
+function runImageTestCase1(mtype, eventtype) {
+	var objstr = dojo.toJson(pData.data);
+	var req = {};
+	var targetImage = prompt("Enter target Image");
+	req.name = currentGraph;
+	req.process = objstr;
+	req.mainTable = null;
+	req.targetImage=targetImage;
+	req.trace = true;
+	if (eventtype != null)
+		req.eventtype = eventtype;
+	if (mtype != null)
+		req.mappingtype = mtype;
+	var url = getURL("RunImageTestCase");
+	postFormWithContent(url, req, function(res) {
+		dynaHtmlDlg(res, "Message", null, "", "ok");
+	});
+}
 
 function runAutomation1(mtype, eventtype) {
 	var objstr = dojo.toJson(pData.data);

@@ -201,6 +201,7 @@ public static String getPostString(Map<String,String>params,String url)throws Ex
 }
 public static byte[] doPostWithBody(String body,String url)throws Exception{
 	  PostMethod filePost = new PostMethod(url);
+	  filePost.setRequestHeader("Content-Type", "application/json");
 	  filePost.setRequestEntity(new StringRequestEntity(body));
 	  HttpClient client = new HttpClient();
 	  int status = client.executeMethod(filePost);

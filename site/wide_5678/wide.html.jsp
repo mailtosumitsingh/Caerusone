@@ -163,6 +163,7 @@ Other licenses may apply please refer to individual source files.
 		urlMap.ProcessingPlan = "/ProcessingPlan";
 		urlMap.CompileTaskPlanV2="/CompileTaskPlanV2";
 		urlMap.RunAutomationProcess="/RunAutomationProcess";
+		urlMap.RunImageTestCase="/RunImageTestCase";
 		urlMap.GetProtoLayout = "/site/GetProtoLayout";
 		urlMap.GetTaskSpecs = "/site/GetTaskSpecs";
 		urlMap.GetTaskSpecs = "/site/GetAnnotSpecs";
@@ -3036,68 +3037,176 @@ return temp;
 				<div dojoType="dijit.PopupMenuItem" id="compilePopupMenuItem">
 					<span>Compile</span>
 					<div id="compileMenuColl" dojoType="dijit.Menu">
-					   <div dojoType="dijit.MenuItem" id="CompileGcodeOnServer"
-                            onClick="menuItemClicked(this.id);compileGcodeMapperOnServer()">
-                            <b>Compile Gcode</b>
-                        </div>
-                       <div dojoType="dijit.MenuItem" id="RunInGrblController"
-                            onClick="menuItemClicked(this.id);runViaGrblControllerOnServer()">
-                            <b>Execute GRBL</b>
-                        </div>
-                         
-                        
-                          <div dojoType="dijit.MenuItem" id="CompileTagModelOnServer"
-                            onClick="menuItemClicked(this.id);compileTagModelOnServer()">
-                            <b>Compile Tag Model</b>
-                        </div>
-                          <div dojoType="dijit.MenuItem" id="CompileEv3Model"
-                            onClick="menuItemClicked(this.id);compileEv3Path()">
-                            <b>Compile Ev3 Model</b>
-                        </div>                        
-                        <div dojoType="dijit.MenuItem" id="TriangulateOnServer"
-                            onClick="menuItemClicked(this.id);triangulateOnServer()">
-                            <b>Triangulate</b>
-                        </div>
+					<div dojoType="dijit.PopupMenuItem" id="machineExecutePopupMenuItem">
+							<span>Machine</span>
+								<div id="hardwareMachineMenuColl" dojoType="dijit.Menu">
+							
+								   <div dojoType="dijit.MenuItem" id="CompileGcodeOnServer"
+			                            onClick="menuItemClicked(this.id);compileGcodeMapperOnServer()">
+			                            <b>Compile Gcode</b>
+			                        </div>
+			                       <div dojoType="dijit.MenuItem" id="RunInGrblController"
+			                            onClick="menuItemClicked(this.id);runViaGrblControllerOnServer()">
+			                            <b>Execute GRBL</b>
+			                        </div>
+		                          <div dojoType="dijit.MenuItem" id="CompileEv3Model"
+        			                    onClick="menuItemClicked(this.id);compileEv3Path()">
+                    			        <b>Compile Ev3 Model</b>
+                        			</div>                        
+		
+			         		</div>
+			         </div>                
+                     <div dojoType="dijit.PopupMenuItem" id="toDelPopupMenuItem">
+							<span>ToDel</span>
+								<div id="toDelMenuColl" dojoType="dijit.Menu">
+								</div>
+					</div>
+						<div dojoType="dijit.PopupMenuItem" id="DrawingPopupMenuItem">
+							<span>Shape</span>
+								<div id="drawingMenuColl" dojoType="dijit.Menu">
+			                        <div dojoType="dijit.MenuItem" id="TriangulateOnServer"
+			                            onClick="menuItemClicked(this.id);triangulateOnServer()">
+			                            <b>Triangulate</b>
+			                        </div>
+	                                <div dojoType="dijit.MenuItem" id="ShapeMapperOnServer"
+			                            onClick="menuItemClicked(this.id);shapeMapperOnServer()">
+			                            <b>ShapeMapper</b>
+			                        </div>
+			                        <div dojoType="dijit.MenuItem" id="ShapePixalateOnServer"
+			                            onClick="menuItemClicked(this.id);shapePixalateOnServer()">
+			                            <b>ShapePixalate</b>
+			                        </div>
+			
+			                        <div dojoType="dijit.MenuItem" id="ShapeOffsetOnServer"
+			                            onClick="menuItemClicked(this.id);shapeOffsetOnServer()">
+			                            <b>ShapeOffset</b>
+			                        </div>
+			                        <div dojoType="dijit.MenuItem" id="ShapeCavityOnServer"
+			                            onClick="menuItemClicked(this.id);shapeCavityOnServer()">
+			                            <b>Shape Cavity</b>
+			                        </div>
+			                        
+			  						<div dojoType="dijit.MenuItem" id="shapeOffsetOnServerOutside"
+			                            onClick="menuItemClicked(this.id);shapeOffsetOnServerOutside()">
+			                            <b>CutOutside</b>
+			                        </div>
+			                          <div dojoType="dijit.MenuItem" id="shapeOffsetOnServerInside"
+			                            onClick="menuItemClicked(this.id);shapeOffsetOnServerInside()">
+			                            <b>CutInside</b>
+			                        </div>
+								</div>
+						</div>
+						<div dojoType="dijit.PopupMenuItem" id="findOutPopupMenuItem">
+							<span>To Fix</span>
+								<div id="findOutMenuColl" dojoType="dijit.Menu">
+									<div dojoType="dijit.MenuItem" id="compileObjectMappingOnServer"
+										onClick="menuItemClicked(this.id);compileObjectMapperOnServer()">
+										<b>Compile Object Mapping</b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileSubGraphOnServer"
+										onClick="menuItemClicked(this.id);compileSubGraphOnServer()">
+										<b>Compile Sub Graph</b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileMappingOnServer4MI"
+										onClick="menuItemClicked(this.id);compileMapperOnServer4()">
+										<b>Compile Mapping</b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileMappingOnServer5MI"
+										onClick="menuItemClicked(this.id);compileMapperOnServer5()">
+										<b>Compile And Run Mapping </b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileMappingOnServer6MI"
+										onClick="menuItemClicked(this.id);compileMapperOnServer6()">
+										<b>Compile Task Plan</b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileMappingOnServerToCodeMI"
+										onClick="menuItemClicked(this.id);compileMapperOnServerToCode()">
+										<b>Compile To Code </b>
+									</div>
+			                      <div dojoType="dijit.MenuItem" id="compilePatternsOnServerToCodeMI"
+			                            onClick="menuItemClicked(this.id);compilePatternOnServerToCode()">
+			                            <b>Compile Patterns</b>
+			                        </div>
+									<div dojoType="dijit.MenuItem"
+										id="compileMappingOnServerToJavaCodeMI"
+										onClick="menuItemClicked(this.id);compileMapperOnServerToJavaCode()">
+										<b>Compile To Java</b>
+									</div>
+									<div dojoType="dijit.MenuItem"
+										id="compileMappingOnServerToOpenCVCodeMI"
+										onClick="menuItemClicked(this.id);compileMapperOnServerToOpenCVCode()">
+										<b>Compile OpenCVGraph</b>
+									</div>
+			                        <div dojoType="dijit.MenuItem"
+			                            id="compileMappingOnServerToVizPipesCodeMI"
+			                            onClick="menuItemClicked(this.id);compileMapperOnServerToVizPipeCode()">
+			                            <b>Compile VizPipeline</b>
+			                        </div>
+									
+									<div dojoType="dijit.MenuItem"
+										id="compileMappingOnServerToJavaScriptCodeMI"
+										onClick="menuItemClicked(this.id);compileMapperOnServerToJavaScriptCode()">
+										<b>Compile To Java Script</b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileCamelPlan"
+										onClick="menuItemClicked(this.id);compileCompileCamelPlan()">
+										<b>Compile Camel Plan</b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileClassOnServer"
+										onClick="menuItemClicked(this.id);compileClassOnServer()">
+										<b>Compile Class</b>
+									</div>
+									<div dojoType="dijit.MenuItem" id="compileSpringConfigOnServer"
+										onClick="menuItemClicked(this.id);compileSpringConfigOnServer()">
+										<b>Compile Spring Config</b>
+									</div>
+									<!-- <div dojoType="dijit.MenuItem" onClick="menuItemClicked(this.id);compileMapperOnServer()">Compile Mappper on server</div> -->
+									<div dojoType="dijit.MenuItem" id="compileEventMappingOnServerMI"
+										onClick="menuItemClicked(this.id);compileMapperOnServer('EventProcessor',pData.eventtype)">Compile
+										Event Mappper on server</div>
+									<div dojoType="dijit.MenuItem" id="compileMappingOnServer2MI"
+										onClick="menuItemClicked(this.id);compileMapperOnServer2()">Compile Mappper on
+										server</div>
+									<div dojoType="dijit.MenuItem" id="compileMapperTemplateMI"
+										onClick="menuItemClicked(this.id);compileMapperOnServer3()">Compile Mappper Template
+										on server</div>
+									<div dojoType="dijit.MenuItem" id="compileGraphTemplateMI"
+										onClick="menuItemClicked(this.id);CompileGraphTemplate()">Compile Graph Template on
+										server</div>
+									<div dojoType="dijit.MenuItem" id="compileToDoMappingMI"
+										onClick="menuItemClicked(this.id);compileTodoMapperOnServer()">Compile Todo Mappper
+										on server</div>
+									<div dojoType="dijit.MenuItem" id="runMapperOnServerMI"
+										onClick="menuItemClicked(this.id);compileAndRunMapperOnServer()">Run Mappper on
+										server</div>
+									<div dojoType="dijit.MenuItem" id="runMapperTemplateOnServerMI"
+										onClick="menuItemClicked(this.id);compileAndRunMapperOnServerUserTemplate()">Run
+										Mappper Template on server</div>
+									
+									<div dojoType="dijit.PopupMenuItem" id="executePopupMenuItem">
+										<span>Execute</span>
+										<div id="executeMenuColl" dojoType="dijit.Menu">
+											<div dojoType="dijit.MenuItem" id="compileDistGraphMI"
+												onClick="menuItemClicked(this.id);compileFastCamelOnServer()">Compile Distributed
+												Graph</div>
+											<div dojoType="dijit.MenuItem" id="compileFastGraphMI"
+												onClick="menuItemClicked(this.id);compileFastLocalOnServer()">Compile Fast Graph</div>
+			
+										</div>
+									</div>
+									
+									<div dojoType="dijit.PopupMenuItem" id="stateMachinePopupMenuItem">
+										<span>State Machine</span>
+										<div id="stateMachineMenuColl" dojoType="dijit.Menu">
+											<div dojoType="dijit.MenuItem" id="compileDFSMGraphMI"
+												onClick="menuItemClicked(this.id);compileDFStateMachineOnServer()">Compile DF
+												StateMachine on server</div>
+										</div>
+									</div>
 
-                        <div dojoType="dijit.MenuItem" id="ShapeMapperOnServer"
-                            onClick="menuItemClicked(this.id);shapeMapperOnServer()">
-                            <b>ShapeMapper</b>
-                        </div>
-                        <div dojoType="dijit.MenuItem" id="ShapePixalateOnServer"
-                            onClick="menuItemClicked(this.id);shapePixalateOnServer()">
-                            <b>ShapePixalate</b>
-                        </div>
+								</div>
+						</div>
 
-                        <div dojoType="dijit.MenuItem" id="ShapeOffsetOnServer"
-                            onClick="menuItemClicked(this.id);shapeOffsetOnServer()">
-                            <b>ShapeOffset</b>
-                        </div>
-                        <div dojoType="dijit.MenuItem" id="ShapeCavityOnServer"
-                            onClick="menuItemClicked(this.id);shapeCavityOnServer()">
-                            <b>Shape Cavity</b>
-                        </div>
-                        
-  						<div dojoType="dijit.MenuItem" id="shapeOffsetOnServerOutside"
-                            onClick="menuItemClicked(this.id);shapeOffsetOnServerOutside()">
-                            <b>CutOutside</b>
-                        </div>
-                          <div dojoType="dijit.MenuItem" id="shapeOffsetOnServerInside"
-                            onClick="menuItemClicked(this.id);shapeOffsetOnServerInside()">
-                            <b>CutInside</b>
-                        </div>
-                        
-						<div dojoType="dijit.MenuItem" id="compileObjectMappingOnServer"
-							onClick="menuItemClicked(this.id);compileObjectMapperOnServer()">
-							<b>Compile Object Mapping</b>
-						</div>
-						<div dojoType="dijit.MenuItem" id="compileSubGraphOnServer"
-							onClick="menuItemClicked(this.id);compileSubGraphOnServer()">
-							<b>Compile Sub Graph</b>
-						</div>
-						<div dojoType="dijit.MenuItem" id="compileMappingOnServer4MI"
-							onClick="menuItemClicked(this.id);compileMapperOnServer4()">
-							<b>Compile Mapping</b>
-						</div>
 						<div dojoType="dijit.MenuItem" id="compileWebUIFlowMI"
 							onClick="menuItemClicked(this.id);compileWebUIFlow()">
 							<b>Compile Web UI Flow</b>
@@ -3106,101 +3215,13 @@ return temp;
 							onClick="menuItemClicked(this.id);runUICodeFlow()">
 							<b>Run UI flow</b>
 						</div>
-						<div dojoType="dijit.MenuItem" id="compileMappingOnServer5MI"
-							onClick="menuItemClicked(this.id);compileMapperOnServer5()">
-							<b>Compile And Run Mapping </b>
-						</div>
-						<div dojoType="dijit.MenuItem" id="compileMappingOnServer6MI"
-							onClick="menuItemClicked(this.id);compileMapperOnServer6()">
-							<b>Compile Task Plan</b>
-						</div>
 						<div dojoType="dijit.MenuItem" id="runAutomation1"
 							onClick="menuItemClicked(this.id);runAutomation1()">
 							<b>Run Automation</b>
 						</div>
-						<div dojoType="dijit.MenuItem" id="compileMappingOnServerToCodeMI"
-							onClick="menuItemClicked(this.id);compileMapperOnServerToCode()">
-							<b>Compile To Code </b>
-						</div>
-                      <div dojoType="dijit.MenuItem" id="compilePatternsOnServerToCodeMI"
-                            onClick="menuItemClicked(this.id);compilePatternOnServerToCode()">
-                            <b>Compile Patterns</b>
-                        </div>
-						<div dojoType="dijit.MenuItem"
-							id="compileMappingOnServerToJavaCodeMI"
-							onClick="menuItemClicked(this.id);compileMapperOnServerToJavaCode()">
-							<b>Compile To Java</b>
-						</div>
-						<div dojoType="dijit.MenuItem"
-							id="compileMappingOnServerToOpenCVCodeMI"
-							onClick="menuItemClicked(this.id);compileMapperOnServerToOpenCVCode()">
-							<b>Compile OpenCVGraph</b>
-						</div>
-                        <div dojoType="dijit.MenuItem"
-                            id="compileMappingOnServerToVizPipesCodeMI"
-                            onClick="menuItemClicked(this.id);compileMapperOnServerToVizPipeCode()">
-                            <b>Compile VizPipeline</b>
-                        </div>
-						
-						<div dojoType="dijit.MenuItem"
-							id="compileMappingOnServerToJavaScriptCodeMI"
-							onClick="menuItemClicked(this.id);compileMapperOnServerToJavaScriptCode()">
-							<b>Compile To Java Script</b>
-						</div>
-						<div dojoType="dijit.MenuItem" id="compileCamelPlan"
-							onClick="menuItemClicked(this.id);compileCompileCamelPlan()">
-							<b>Compile Camel Plan</b>
-						</div>
-						<div dojoType="dijit.MenuItem" id="compileClassOnServer"
-							onClick="menuItemClicked(this.id);compileClassOnServer()">
-							<b>Compile Class</b>
-						</div>
-						<div dojoType="dijit.MenuItem" id="compileSpringConfigOnServer"
-							onClick="menuItemClicked(this.id);compileSpringConfigOnServer()">
-							<b>Compile Spring Config</b>
-						</div>
-						<!-- <div dojoType="dijit.MenuItem" onClick="menuItemClicked(this.id);compileMapperOnServer()">Compile Mappper on server</div> -->
-						<div dojoType="dijit.MenuItem" id="compileEventMappingOnServerMI"
-							onClick="menuItemClicked(this.id);compileMapperOnServer('EventProcessor',pData.eventtype)">Compile
-							Event Mappper on server</div>
-						<div dojoType="dijit.MenuItem" id="compileMappingOnServer2MI"
-							onClick="menuItemClicked(this.id);compileMapperOnServer2()">Compile Mappper on
-							server</div>
-						<div dojoType="dijit.MenuItem" id="compileMapperTemplateMI"
-							onClick="menuItemClicked(this.id);compileMapperOnServer3()">Compile Mappper Template
-							on server</div>
-						<div dojoType="dijit.MenuItem" id="compileGraphTemplateMI"
-							onClick="menuItemClicked(this.id);CompileGraphTemplate()">Compile Graph Template on
-							server</div>
-						<div dojoType="dijit.MenuItem" id="compileToDoMappingMI"
-							onClick="menuItemClicked(this.id);compileTodoMapperOnServer()">Compile Todo Mappper
-							on server</div>
-						<div dojoType="dijit.MenuItem" id="runMapperOnServerMI"
-							onClick="menuItemClicked(this.id);compileAndRunMapperOnServer()">Run Mappper on
-							server</div>
-						<div dojoType="dijit.MenuItem" id="runMapperTemplateOnServerMI"
-							onClick="menuItemClicked(this.id);compileAndRunMapperOnServerUserTemplate()">Run
-							Mappper Template on server</div>
-						
-						<div dojoType="dijit.PopupMenuItem" id="executePopupMenuItem">
-							<span>Execute</span>
-							<div id="executeMenuColl" dojoType="dijit.Menu">
-								<div dojoType="dijit.MenuItem" id="compileDistGraphMI"
-									onClick="menuItemClicked(this.id);compileFastCamelOnServer()">Compile Distributed
-									Graph</div>
-								<div dojoType="dijit.MenuItem" id="compileFastGraphMI"
-									onClick="menuItemClicked(this.id);compileFastLocalOnServer()">Compile Fast Graph</div>
-
-							</div>
-						</div>
-						
-						<div dojoType="dijit.PopupMenuItem" id="stateMachinePopupMenuItem">
-							<span>State Machine</span>
-							<div id="stateMachineMenuColl" dojoType="dijit.Menu">
-								<div dojoType="dijit.MenuItem" id="compileDFSMGraphMI"
-									onClick="menuItemClicked(this.id);compileDFStateMachineOnServer()">Compile DF
-									StateMachine on server</div>
-							</div>
+						<div dojoType="dijit.MenuItem" id="runImageTestCase1"
+							onClick="menuItemClicked(this.id);runImageTestCase1()">
+							<b>Run Image TestCase</b>
 						</div>
 
 					</div>

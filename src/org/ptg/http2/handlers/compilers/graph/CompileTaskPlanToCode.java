@@ -122,7 +122,6 @@ public class CompileTaskPlanToCode extends AbstractHandler {
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			if (e.getCause() instanceof DiagnosticException) {
-				DiagnosticException dex = (DiagnosticException) e;
 			} else if (e.getCause() instanceof DiagnosticException) {
 				DiagnosticException d = (DiagnosticException) e.getCause();
 				long line = d.getDiagnostic().getLineNumber();
