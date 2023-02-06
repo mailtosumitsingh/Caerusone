@@ -178,5 +178,7 @@
 	<classpathentry kind="lib" path="lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/MyCodeInstrumentor.jar"/>
 	<classpathentry kind="lib" path="lib/opencv-4.3.0-3.jar"/>
+	<classpathentry kind="lib" path="lib/serial/RXTXcomm.jar"/>
+	<classpathentry kind="lib" path="lib/serial/Serial.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
