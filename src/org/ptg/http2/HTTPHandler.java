@@ -27,8 +27,10 @@ import org.ptg.http2.handlers.GetMenuGroup;
 import org.ptg.http2.handlers.GetSQLLayout;
 import org.ptg.http2.handlers.GetTaskSpecs;
 import org.ptg.http2.handlers.ReprocessRegions;
+import org.ptg.http2.handlers.camera.GetCameraImage;
 import org.ptg.http2.handlers.compilers.graph.CompileTaskPlanToCode;
 import org.ptg.http2.handlers.compilers.graph.RunUICodeFlow;
+import org.ptg.http2.handlers.ev3.GetEv3Path;
 import org.ptg.http2.handlers.executors.ExecuteGraph;
 import org.ptg.http2.handlers.generators.GenerateFunctionBlocks;
 import org.ptg.http2.handlers.generators.GenerateFunctionBlocks4;
@@ -42,7 +44,14 @@ import org.ptg.http2.handlers.geom.TransformHandler;
 import org.ptg.http2.handlers.geom.algo.AStartPathFinder;
 import org.ptg.http2.handlers.geom.algo.FindItemsViaIntersection;
 import org.ptg.http2.handlers.geom.algo.Triangulate;
+import org.ptg.http2.handlers.tagging.CompileTagModel;
+import org.ptg.http2.handlers.tagging.GetTagModelFromGraph;
 import org.ptg.http2.handlers.webui.SaveRecentMenu;
+import org.ptg.http2.handlers.workshop.Bridgeport;
+import org.ptg.http2.handlers.workshop.GrblController;
+import org.ptg.http2.handlers.workshop.ReadDROOverHTTP;
+import org.ptg.http2.handlers.workshop.VFD;
+import org.ptg.http2.handlers.workshop.VaccumControl;
 import org.ptg.util.procintr.ProcessingPlan;
 
 public class HTTPHandler extends AbstractHandler {
@@ -221,6 +230,40 @@ public class HTTPHandler extends AbstractHandler {
 		handlers.put("/site/compileGcode", new org.ptg.http2.handlers.cnc.GcodeGenerator());
 		//geommore
 		handlers.put("/site/triangulate1", new Triangulate());
+
+		handlers.put("/GetClipBoard", new org.ptg.http2.handlers.clipboard.GetClipBoardContent());
+
+
+
+		ReadDROOverHTTP value = new ReadDROOverHTTP();
+		handlers.put("/site/compileTagModel", new CompileTagModel(value));
+		handlers.put("/site/getTagModelFromGraph", new GetTagModelFromGraph());
+
+		if(System.getProperty("enableEv3")!=null) {
+		handlers.put("/site/getEv3Path", new GetEv3Path());	
+		}
+		
+		if(System.getProperty("enableVFD")!=null) {
+		handlers.put("/site/vfd", new VFD());
+		handlers.put("/site/vaccumControl", new VaccumControl());
+		}
+		if(System.getProperty("enableDRO")!=null) {
+		handlers.put("/site/readDROOverHTTP", value);
+		handlers.put("/site/getCameraImage", new GetCameraImage());
+		}
+		if(System.getProperty("enableMC1")!=null) {
+		//machine control 1
+		handlers.put("/site/mc1", new Bridgeport());
+		}
+		if(System.getProperty("enableGRBL")!=null) {
+			handlers.put("/site/GrblController", new GrblController());
+		}
+		
+
+
+
+
+
 
 		
 		handlers.put("/site/shapeMapper", new ShapeMapper());

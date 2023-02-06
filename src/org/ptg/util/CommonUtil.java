@@ -4150,6 +4150,7 @@ public class CommonUtil {
 
 	public static String getMappingGraphCode(String folder, String name, String codein, String mappingtype, Map<String, String> params) {
 		String path = base + File.separator + "uploaded" + File.separator + folder + File.separator;
+		String dest = "Mapping_" + name + ".java";
 		String temp = codein;
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("name", "Mapping_" + name);
@@ -4160,6 +4161,12 @@ public class CommonUtil {
 			}
 		}
 		String code = VelocityHelper.burnTemplate(m, "mapping_" + mappingtype + ".vm").toString();
+		try {
+			org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path + dest), code.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return code;
 	}
 

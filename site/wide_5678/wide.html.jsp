@@ -3053,7 +3053,12 @@ return temp;
         			                    onClick="menuItemClicked(this.id);compileEv3Path()">
                     			        <b>Compile Ev3 Model</b>
                         			</div>                        
-		
+		                        
+			                          <div dojoType="dijit.MenuItem" id="CompileTagModelOnServer"
+			                            onClick="menuItemClicked(this.id);compileTagModelOnServer()">
+			                            <b>Compile Tag Model</b>
+			                        </div>
+			        
 			         		</div>
 			         </div>                
                      <div dojoType="dijit.PopupMenuItem" id="toDelPopupMenuItem">
