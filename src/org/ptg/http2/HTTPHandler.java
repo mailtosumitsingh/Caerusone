@@ -216,8 +216,8 @@ public class HTTPHandler extends AbstractHandler {
 		handlers.put("/site/CompileObjectMapping", new org.ptg.http2.handlers.compilers.graph.CompileObjectMapping());
 		handlers.put("/ProcessingPlan", new ProcessingPlan());
 		handlers.put("/CompileTaskPlanV2", new org.ptg.http2.handlers.compilers.graph.CompileTaskPlanV2());
-		handlers.put("/RunAutomationProcess", new org.ptg.http2.handlers.compilers.graph.RunAutomationProcess());
-		handlers.put("/RunImageTestCase", new org.ptg.http2.handlers.compilers.graph.RunImageTestCase());
+		handlers.put("/RunAutomationProcess", new org.ptg.http2.handlers.compilers.graph.good.RunAutomationProcess());
+		handlers.put("/RunImageTestCase", new org.ptg.http2.handlers.compilers.graph.good.RunImageTestCase());
 		
 		handlers.put("/site/FindItemsViaIntersection", new FindItemsViaIntersection());
 		handlers.put("/site/SaveRecentMenu", new SaveRecentMenu());
