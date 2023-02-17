@@ -275,15 +275,20 @@ public class RunAutomationProcess extends AbstractHandler {
 			VNode<AnonDefObj> v, Map<String, VNode<AnonDefObj>> mapVnode) {
 		if (v == null) {
  			System.out.println("Could not find vnode: " + port);
- 			String vport = StringUtils.substringBefore(port, "_");
+ 			if(o.getPorts().get(port)==null) {
+ 			JSONObject jo = o.getOrphans().get(port);
+ 			if(jo!=null) {
+ 			String vport = jo.getString("grpid");
 				if(vport!=null) {
 				List<AnonDefObj> collect = o.getAnonDefs().stream().filter(a->a.getId().equals(vport)).collect(Collectors.toList());
 				AnonDefObj def = (collect==null||collect.size()<1)? null: collect.get(0);
 				if(def!=null) {
-					def.setAnonType(StringUtils.substringAfter(port,def.getId()+"_"));
+					def.setAnonType(jo.getString("dtype"));
 					v  = new VNode<AnonDefObj>(def);
 				}	
 			}
+ 		}
+ 			}
 		}
 		
 		if (v != null) { 
@@ -324,6 +329,7 @@ public class RunAutomationProcess extends AbstractHandler {
 
 	private String getDynamicCode(FPGraph2 o, Map<String, Object> ctx, AnonDefObj v) {
 		StringBuilder sets = new StringBuilder();
+		if(v.getName().equals("in")) {
 		String className = v.getAnonType();
 		sets.append(className+" in =("+className+") ctx.get(\"in\");\n");
 		//get all ports by this anondef group
@@ -337,7 +343,24 @@ public class RunAutomationProcess extends AbstractHandler {
 			String key = StringUtils.substringAfterLast(portObj.getPortname(),".");
 			key = portObj.getGrp()+".get"+StringUtils.capitalize(key)+"()";
 			sets.append("ctx.put(\"" + portObj.getId() + "\"," + key + ");\n");
-		}
+		}}
+		if(v.getName().equals("out")) {
+			String className = v.getAnonType();
+			sets.append(className+" out =("+className+") ctx.get(\"out\");\n");
+			//get all ports by this anondef group
+			//for each port find outgoing conndef
+			//for each conn def generate setter function
+				//for settter function use setter properly.
+			Set<String> ports = o.getPorts().values().stream().filter(a->a.getGrp().equals(v.getId())).map(a->a.getId()).collect(Collectors.toSet());
+			List<ConnDef> lst = o.getForward().values().stream().filter(c->ports.contains(c.getTo())).collect(Collectors.toList());
+			for(ConnDef cd:lst) {
+				PortObj portObjTo = o.getPorts().get(cd.getTo());
+				PortObj portObjFrom = o.getPorts().get(cd.getFrom());
+				String key = StringUtils.substringAfterLast(portObjTo.getPortname(),".");
+				String code = "out.set"+StringUtils.capitalize(key)+"( ("+portObjTo.getDtype()+") ctx.get(\""+portObjFrom.getId()+"\" ) );";
+				sets.append(code+"\n");
+			}}
+			
 		return sets.toString();
 	}
 	private String getCode(FPGraph2 o, Map<String, Object> ctx, AnonDefObj v) {
