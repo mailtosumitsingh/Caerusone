@@ -2434,7 +2434,7 @@ function arrowLink2(bb1, bb2, subs, id) {
 		a = pCanvas.connectionarrow(bb1, bb2, 8);
 	}
 	a[0].node.setAttribute("eleid", id);
-	a[0].attr("stroke-width", "4");
+	a[0].attr("stroke-width", "2");
 	a[0].attr("stroke", "orange");
 	a[1].attr("stroke", "orange");
 	a[1].attr("fill", "orange");
